@@ -5,17 +5,85 @@
  */
 package slack;
 
+import java.sql.*;
+import java.util.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author mac
  */
 public class Slack {
 
-    /**
-     * @param args the command line arguments
-     */
+    
+    public static Connection conn;
+    
+    Slack()
+    {
+        try {
+            // TODO code application logic here
+
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+        } catch (SQLException ex) {
+            System.out.println("DB Connection Error");
+            return;
+        }
+    }
+    
+    boolean checkLogin(String n, String p) throws SQLException
+    {
+        String query="SELECT* FROM LOGIN WHERE EMAIL=? and PASSWORD=?";
+        PreparedStatement ps=conn.prepareStatement(query);
+        
+        ps.setString(1, n);
+        ps.setString(2, p);
+        
+        ResultSet rs=ps.executeQuery();
+        
+        if(rs.next())
+            return true;
+        else
+            return false;
+    }
+    
+    boolean Signup(String n, String e, String p) throws SQLException
+    {
+        String query="INSERT INTO LOGIN (\"NAME\", EMAIL, PASSWORD)" +"VALUES (?, ?, ?)";
+         
+        PreparedStatement ps=conn.prepareStatement(query);
+        
+        ps.setString(1, n);
+        ps.setString(2, e);
+        ps.setString(3, p);
+        
+        int tr= ps.executeUpdate();
+       if(tr>0)
+           return true;
+       return false;
+    }
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        Slack obj=new Slack();
+        
+       
+        
+        
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+        Login jframe=new Login(obj);
+        jframe.setTitle("Login To Slack");
+        jframe.setLocation(400, 150);
+        jframe.setSize(320, 350);
+        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jframe.setVisible(true);
+        
+            }
+        });
     }
     
 }
