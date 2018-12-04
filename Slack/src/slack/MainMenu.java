@@ -5,6 +5,12 @@
  */
 package slack;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static slack.Login.loggedInUser;
+
 /**
  *
  * @author mac
@@ -14,8 +20,11 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    public MainMenu() {
+    private Slack obj;
+    public MainMenu(Slack a) {
+        obj=a;
         initComponents();
+        
     }
 
     /**
@@ -58,7 +67,43 @@ public class MainMenu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          // TODO add your handling code here:
          
+         String Wname=null;
+         boolean flag=false;
+         String pass=null;
          
+         while(Wname==null)
+         {
+             Wname=JOptionPane.showInputDialog(rootPane, "Please input the name of workspace");
+         }
+         
+         while(pass==null)
+         {
+             pass=JOptionPane.showInputDialog(rootPane, "Create a password for this workspace");
+         }
+         
+         int x=JOptionPane.showConfirmDialog(null, "Do you accept the License agreement?","License Agreement",JOptionPane.YES_NO_OPTION);
+         
+         if(x==0)
+         {
+        try {
+           flag= obj.createWorkspace(Wname, loggedInUser,pass);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(flag==true)
+        {
+            JOptionPane.showMessageDialog(rootPane, "Your Workspace : "+Wname+", has been created" );
+        }
+        else
+        {
+                  JOptionPane.showMessageDialog(rootPane, "An error occurred, retry later" );
+        }
+        }
+         else
+         {
+             JOptionPane.showMessageDialog(rootPane, "You need to accept License in order to process, try again");
+         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     

@@ -63,6 +63,21 @@ public class Slack {
        return false;
     }
     
+    boolean createWorkspace(String wname,String creator,String pass) throws SQLException
+    {
+        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD)"+"VALUES ( ?, ?,?)";
+        PreparedStatement ps=conn.prepareStatement(query);
+        ps.setString(1, wname);
+        ps.setString(2, creator);
+        ps.setString(3, pass);
+        
+        
+        int tr= ps.executeUpdate();
+         if(tr>0)
+           return true;
+       return false;
+    }
+    
     public static void main(String[] args) {
         
         Slack obj=new Slack();

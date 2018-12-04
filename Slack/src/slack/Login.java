@@ -20,6 +20,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Slack obj;
+    public static String loggedInUser;
     public Login(Slack o) {
         obj=o;
         initComponents();
@@ -112,7 +113,8 @@ public class Login extends javax.swing.JFrame {
             jLabel6.setText("Login Failed, retry pls !!");
         else
         {
-            MainMenu mainFrame=new MainMenu();
+            loggedInUser=e;
+            MainMenu mainFrame=new MainMenu(obj);
             mainFrame.setTitle("Slack");
             mainFrame.setLocation(400,150);
             mainFrame.setSize(320,350);
