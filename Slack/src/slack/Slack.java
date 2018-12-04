@@ -80,7 +80,7 @@ public class Slack {
         jframe.setLocation(400, 150);
         jframe.setSize(320, 350);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setVisible(true);
+        jframe.setVisible(true);    
         
             }
         });

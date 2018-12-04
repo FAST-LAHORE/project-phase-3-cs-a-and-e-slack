@@ -36,13 +36,13 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,8 +53,6 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setBounds(80, 10, 143, 16);
         getContentPane().add(email);
         email.setBounds(40, 90, 240, 26);
-        getContentPane().add(password);
-        password.setBounds(40, 150, 240, 26);
 
         jLabel2.setText("Username:");
         getContentPane().add(jLabel2);
@@ -87,6 +85,8 @@ public class Login extends javax.swing.JFrame {
         jButton2.setBounds(180, 290, 70, 29);
         getContentPane().add(jLabel6);
         jLabel6.setBounds(160, 260, 170, 0);
+        getContentPane().add(password);
+        password.setBounds(40, 150, 240, 26);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel5);
@@ -98,9 +98,9 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String e=email.getText();
-        System.out.println(e);
+        //System.out.println(e);
         String p=password.getText();
-        System.out.println(p);
+        //System.out.println(p);
         boolean isLogin=false;
         try {
             isLogin=obj.checkLogin(e, p);
@@ -156,6 +156,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField password;
+    private javax.swing.JPasswordField password;
     // End of variables declaration//GEN-END:variables
 }
