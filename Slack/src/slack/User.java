@@ -5,19 +5,47 @@
  */
 package slack;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import static slack.Slack.conn;
+import static slack.Slack.obj;
+
 /**
  *
  * @author mac
  */
 public class User 
 {
- private String name;
+ private String email;
  private String password;
 
  User(String n, String p)
  {
-     name=n; 
+     email=n; 
      password=p;
  }
  
+ boolean checkLogin() throws SQLException
+    {
+     return  obj.checkLogin(email, password);
+    }
+ 
+ 
+    boolean Signup(String n) throws SQLException
+    {
+       return obj.Signup(n, email, password);
+    }
+ 
+    String getName()
+    {
+        return email;
+    }
+    
+    ArrayList<String> myWorkspace() throws SQLException
+    {
+       return obj.myWorkspace(email);
+    }
+    
 }

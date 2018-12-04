@@ -134,9 +134,12 @@ public class Signup extends javax.swing.JFrame {
         String n=jTextField1.getText();
         String e=jTextField2.getText();
         String p=jPasswordField1.getText();
+        
+        User a=new User(e,p);
+        
         boolean isSignup=false;
         try {
-            isSignup=obj.Signup(n, e, p);
+            isSignup=a.Signup(n);
         } catch (SQLException ex) {
             Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
         }

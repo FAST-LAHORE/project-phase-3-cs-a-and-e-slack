@@ -20,7 +20,8 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Slack obj;
-    public static String loggedInUser;
+    public static User user;
+    
     public Login(Slack o) {
         obj=o;
         initComponents();
@@ -102,9 +103,12 @@ public class Login extends javax.swing.JFrame {
         //System.out.println(e);
         String p=password.getText();
         //System.out.println(p);
+        
+        user=new User(e,p);
+        
         boolean isLogin=false;
         try {
-            isLogin=obj.checkLogin(e, p);
+            isLogin=user.checkLogin();
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,7 +117,7 @@ public class Login extends javax.swing.JFrame {
             jLabel6.setText("Login Failed, retry pls !!");
         else
         {
-            loggedInUser=e;
+            
             MainMenu mainFrame=new MainMenu(obj);
             mainFrame.setTitle("Slack");
             mainFrame.setLocation(400,150);

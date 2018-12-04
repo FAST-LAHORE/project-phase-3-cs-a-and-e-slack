@@ -5,6 +5,13 @@
  */
 package slack;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import static slack.Slack.conn;
+import static slack.Slack.obj;
+
 /**
  *
  * @author mac
@@ -12,15 +19,29 @@ package slack;
 public class Workspace 
 {
     private String name;
-    private String directory;
+    private String password;
     private String creator;
     
-    Workspace(String n, String dir,String c)
+    Workspace(String n, String c,String p) //creates new workspace
     {
         name=n;
-        directory=dir;
+        password=p;
         creator=c;
     }
+    
+    /*Workspace(String n) //load data from DB
+    {
+    name=n;
+    
+    String query="SELECT ";
+    }*/
+    
+    boolean createWorkspace() throws SQLException
+    {
+        return obj.createWorkspace(name, creator, password);
+    }
+    
+    
     
     
 }
