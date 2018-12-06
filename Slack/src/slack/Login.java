@@ -5,11 +5,14 @@
  */
 package slack;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static slack.Slack.obj;
 import static slack.Slack.stack;
 
 /**
@@ -21,12 +24,13 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    Slack obj;
+   
     public static User user;
     
-    public Login(Slack o) {
-        obj=o;
+    public Login() {
+        
         initComponents();
+        
     }
 
     /**
@@ -86,6 +90,11 @@ public class Login extends javax.swing.JFrame {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 40));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
@@ -136,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         
         this.setVisible(false);
         stack.add(this);
-        Signup s=new Signup(this.obj);
+        Signup s=new Signup();
         s.setTitle("Signup");
             s.setLocation(400,150);
             s.setSize(320,350);
@@ -147,6 +156,18 @@ public class Login extends javax.swing.JFrame {
              
             
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+           
+            
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

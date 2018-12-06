@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static slack.Slack.obj;
 import static slack.Slack.stack;
 
 /**
@@ -21,9 +22,9 @@ public class Signup extends javax.swing.JFrame {
     /**
      * Creates new form SIGHUP
      */
-    Slack obj;
-    public Signup(Slack o) {
-        obj=o;
+    
+    public Signup() {
+        
         this.setVisible(true);
         initComponents();
     }
@@ -133,7 +134,7 @@ public class Signup extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         stack.add(this);
-        Login s=new Login(obj);
+        Login s=new Login();
         s.setTitle("Login");
         stack.add(s);
         s.setLocation(400,150);
@@ -166,7 +167,7 @@ public class Signup extends javax.swing.JFrame {
         if(isSignup==true)
         {
            
-         Login s=new Login(this.obj);
+         Login s=new Login();
         s.setLocation(400,150);
             s.setSize(320,350);
             s.setVisible(true);

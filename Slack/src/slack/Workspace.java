@@ -63,8 +63,11 @@ public class Workspace
         users.add(a);
     }
     
-    ArrayList<String> getUsers()
+    ArrayList<String> getUsers() throws SQLException
     {
+        if(users!=null)
+            users.clear();
+        GetMembers();
         return users;
     }
     

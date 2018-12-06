@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+import static slack.Slack.stack;
 
 /**
  *
@@ -41,6 +43,7 @@ public class WSpace extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,7 +60,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(80, 80, 170, 27);
+        jComboBox1.setBounds(70, 80, 170, 27);
 
         jLabel2.setText("Private Chat");
         getContentPane().add(jLabel2);
@@ -85,12 +88,27 @@ public class WSpace extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
         jButton2.setBounds(0, -1, 80, 40);
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton3.setBorder(null);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(260, 0, 50, 60);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(50, 0, 256, 300);
+        jLabel1.setBounds(30, 0, 256, 300);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -123,11 +141,45 @@ public class WSpace extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+       if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+           
+            
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jComboBox1.removeAllItems();
+          ArrayList<String> arr =null;
+        Workspace ws=null;
+        String current = CurrentWorkspace;
+        
+        try {
+            ws = new Workspace(current);
+            arr = ws.getUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            for (int i = 0; i < arr.size(); i++) 
+            {
+            jComboBox1.addItem(arr.get(i));
+            }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;

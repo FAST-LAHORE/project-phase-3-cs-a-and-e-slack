@@ -232,14 +232,12 @@ public class Slack {
             @Override
             public void run()
             {
-        Login jframe=new Login(obj);
+        Login jframe=new Login();
         jframe.setTitle("Login To Slack");
         jframe.setLocation(400, 150);
         jframe.setSize(320, 350);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setVisible(true);   
-        
-        
+        jframe.setVisible(true);
             }
         });
     }

@@ -51,6 +51,7 @@ public class MainMenu extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -114,12 +115,27 @@ public class MainMenu extends javax.swing.JFrame {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
         jButton4.setBounds(-20, 0, 90, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel2);
         jLabel2.setBounds(30, 10, 250, 284);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setBorder(null);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5);
+        jButton5.setBounds(250, 0, 97, 60);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -249,6 +265,8 @@ public class MainMenu extends javax.swing.JFrame {
          
         if(flag==true)
         {
+            stack.add(this);
+                    
          WSpace mainFrame=new WSpace();
             mainFrame.setTitle(wname);
             mainFrame.setLocation(400,150);
@@ -277,6 +295,35 @@ public class MainMenu extends javax.swing.JFrame {
             this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        jComboBox1.removeAllItems();
+        ArrayList<String> arr =null;
+        try {
+            arr = user.myWorkspace();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            for (int i = 0; i < arr.size(); i++) 
+            {
+            jComboBox1.addItem(arr.get(i));
+            }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+           
+            
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -284,6 +331,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

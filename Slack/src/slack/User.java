@@ -59,6 +59,7 @@ public class User
     
     ArrayList<String> myWorkspace() throws SQLException
     {
+        Joined=obj.myWorkspace(email);
        return Joined;
     }
     
