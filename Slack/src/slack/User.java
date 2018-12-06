@@ -18,24 +18,38 @@ import static slack.Slack.obj;
  */
 public class User 
 {
+ private String name;
  private String email;
  private String password;
+ ArrayList<String> created;
+ ArrayList<String> Joined;
+ 
 
- User(String n, String p)
+ User(String n, String p) throws SQLException
  {
      email=n; 
      password=p;
+     Joined=obj.myWorkspace(email);
+     //name lelo database se
  }
  
  boolean checkLogin() throws SQLException
     {
-     return  obj.checkLogin(email, password);
+     ResultSet rs=  obj.checkLogin(email, password);
+     if(rs.next())
+     {
+         name=rs.getString("Name");
+         return true;
+     }
+     else
+         return false;
     }
  
  
     boolean Signup(String n) throws SQLException
     {
-       return obj.Signup(n, email, password);
+       name=n;
+       return obj.Signup(name, email, password);
     }
  
     String getName()
@@ -45,7 +59,17 @@ public class User
     
     ArrayList<String> myWorkspace() throws SQLException
     {
-       return obj.myWorkspace(email);
+       return Joined;
+    }
+    
+    void addCreatedWS(String obj)
+    {
+        created.add(obj);
+    }
+    
+    void addJoinedWS(String obj)
+    {
+        Joined.add(obj);
     }
     
 }

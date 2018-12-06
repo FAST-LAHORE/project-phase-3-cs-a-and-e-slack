@@ -92,6 +92,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         jButton2.setText("Join a Workspace");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
         jButton2.setBounds(190, 280, 130, 30);
 
@@ -122,11 +127,15 @@ public class MainMenu extends javax.swing.JFrame {
          while(Wname==null)
          {
              Wname=JOptionPane.showInputDialog(rootPane, "Please input the name of workspace");
+             if("".equals(Wname))
+                 Wname=null;
          }
          
          while(pass==null)
          {
              pass=JOptionPane.showInputDialog(rootPane, "Create a password for this workspace");
+             if("".equals(pass))
+                 pass=null;
          }
          
          int x=JOptionPane.showConfirmDialog(null, "Do you accept the License agreement?","License Agreement",JOptionPane.YES_NO_OPTION);
@@ -242,6 +251,18 @@ public class MainMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Incorrect password");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        JoinWorkspace mainFrame=new JoinWorkspace();
+            mainFrame.setTitle("Join a Workspace");
+            mainFrame.setLocation(400,150);
+            mainFrame.setSize(320,350);
+            mainFrame.setVisible(true);
+            
+            this.setVisible(false);
+            this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     
 

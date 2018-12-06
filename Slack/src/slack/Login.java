@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,8 +104,11 @@ public class Login extends javax.swing.JFrame {
         //System.out.println(e);
         String p=password.getText();
         //System.out.println(p);
-        
-        user=new User(e,p);
+        try {
+            user=new User(e,p);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         boolean isLogin=false;
         try {
@@ -114,7 +118,7 @@ public class Login extends javax.swing.JFrame {
         }
        
         if(isLogin==false)
-            jLabel6.setText("Login Failed, retry pls !!");
+           JOptionPane.showMessageDialog(rootPane, "Login Failed !");
         else
         {
             

@@ -21,6 +21,8 @@ public class Workspace
     private String name;
     private String password;
     private String creator;
+    ArrayList<User> users;
+    ArrayList<Chats> chats;
     
     Workspace(String n, String c,String p) //creates new workspace
     {
@@ -29,18 +31,16 @@ public class Workspace
         creator=c;
     }
     
-    /*Workspace(String n) //load data from DB
-    {
-    name=n;
-    
-    String query="SELECT ";
-    }*/
     
     boolean createWorkspace() throws SQLException
     {
         return obj.createWorkspace(name, creator, password);
     }
     
+    void addUser(User a)
+    {
+        users.add(a);
+    }
     
     
     

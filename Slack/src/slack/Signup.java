@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -135,7 +136,12 @@ public class Signup extends javax.swing.JFrame {
         String e=jTextField2.getText();
         String p=jPasswordField1.getText();
         
-        User a=new User(e,p);
+        User a=null;
+        try {
+            a = new User(e,p);
+        } catch (SQLException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         boolean isSignup=false;
         try {
@@ -156,7 +162,7 @@ public class Signup extends javax.swing.JFrame {
         }
         else
         {
-            jLabel8.setText("Signup Failed");
+           JOptionPane.showMessageDialog(rootPane, "Signup Failed !");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

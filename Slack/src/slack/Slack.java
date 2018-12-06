@@ -31,7 +31,7 @@ public class Slack {
         }
     }
     
-    boolean checkLogin(String n, String p) throws SQLException
+    ResultSet checkLogin(String n, String p) throws SQLException
     {
         String query="SELECT* FROM LOGIN WHERE EMAIL=? and PASSWORD=?";
         PreparedStatement ps=conn.prepareStatement(query);
@@ -41,10 +41,8 @@ public class Slack {
         
         ResultSet rs=ps.executeQuery();
         
-        if(rs.next())
-            return true;
-        else
-            return false;
+        return rs;
+
     }
     
     boolean Signup(String n, String e, String p) throws SQLException
