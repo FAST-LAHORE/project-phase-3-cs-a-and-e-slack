@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
  */
 public class Slack {
 
-    
+    public static Stack<JFrame> stack=new Stack<>();
     public static Connection conn;
     
     Slack()
@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -237,7 +237,8 @@ public class Slack {
         jframe.setLocation(400, 150);
         jframe.setSize(320, 350);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setVisible(true);    
+        jframe.setVisible(true);   
+        
         
             }
         });

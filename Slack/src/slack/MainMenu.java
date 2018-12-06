@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import static slack.Login.user;
+import static slack.Slack.stack;
 
 
 /**
@@ -48,6 +49,7 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,6 +111,11 @@ public class MainMenu extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3);
         jButton3.setBounds(110, 130, 97, 29);
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton4.setBorder(null);
+        getContentPane().add(jButton4);
+        jButton4.setBounds(-20, 0, 90, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel2);
@@ -259,12 +266,13 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        JoinWorkspace mainFrame=new JoinWorkspace();
+            stack.add(this);
+            JoinWorkspace mainFrame=new JoinWorkspace();
             mainFrame.setTitle("Join a Workspace");
             mainFrame.setLocation(400,150);
             mainFrame.setSize(320,350);
             mainFrame.setVisible(true);
-            
+
             this.setVisible(false);
             this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -275,6 +283,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

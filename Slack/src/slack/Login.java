@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static slack.Slack.stack;
 
 /**
  *
@@ -46,24 +47,21 @@ public class Login extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
+        jButton4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Welcome to Slack");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(80, 10, 143, 16);
-        getContentPane().add(email);
-        email.setBounds(40, 90, 240, 26);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 143, -1));
+        getContentPane().add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 240, -1));
 
         jLabel2.setText("Username:");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(110, 70, 90, 20);
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 90, 20));
 
         jLabel3.setText("Password:");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(110, 130, 70, 16);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 70, -1));
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -71,12 +69,10 @@ public class Login extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(110, 190, 79, 29);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
 
         jLabel4.setText("Not registered? Signup");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(30, 290, 160, 16);
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 160, -1));
 
         jButton2.setText("Signup");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -84,16 +80,16 @@ public class Login extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2);
-        jButton2.setBounds(180, 290, 70, 29);
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(160, 260, 170, 0);
-        getContentPane().add(password);
-        password.setBounds(40, 150, 240, 26);
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 70, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 170, -1));
+        getContentPane().add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 240, -1));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton4.setBorder(null);
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 40));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(20, 0, 290, 310);
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 290, 310));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -121,7 +117,7 @@ public class Login extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(rootPane, "Login Failed !");
         else
         {
-            
+            stack.add(this);
             MainMenu mainFrame=new MainMenu(obj);
             mainFrame.setTitle("Slack");
             mainFrame.setLocation(400,150);
@@ -139,6 +135,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         this.setVisible(false);
+        stack.add(this);
         Signup s=new Signup(this.obj);
         s.setTitle("Signup");
             s.setLocation(400,150);
@@ -160,6 +157,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
