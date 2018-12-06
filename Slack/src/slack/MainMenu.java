@@ -144,7 +144,12 @@ public class MainMenu extends javax.swing.JFrame {
          
          if(x==0)
          {
-             Workspace ws=new Workspace(Wname,user.getName(),pass);
+             Workspace ws=null;
+             try {
+                 ws = new Workspace(Wname,user.getName(),pass);
+             } catch (SQLException ex) {
+                 Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+             }
              try {
                  flag=ws.createWorkspace();
              } catch (SQLException ex) {

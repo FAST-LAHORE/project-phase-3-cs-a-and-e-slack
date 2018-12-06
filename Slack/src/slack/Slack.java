@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -126,6 +126,24 @@ public class Slack {
         
     }
     
+    ResultSet GetWorkspaceDetails(String n) throws SQLException
+    {
+        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,n);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
+    
+    ResultSet GetWorkspaceMembers(String n) throws SQLException
+    {
+        int id=IDbyName(n);
+        String q="SELECT USERNAME FROM HARIS.MYWORKSAPCES WHERE ID = ?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1,id);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
     
     int IDbyName(String n) throws SQLException
     {
@@ -142,6 +160,26 @@ public class Slack {
         return id;
         
     }
+    
+    
+    
+    /*NamebyID(String n) throws SQLException
+    {
+    String tr=null;
+    String q="SELECT Name FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
+    PreparedStatement ps=conn.prepareStatement(q);
+    ps.setInt(1,n);
+    ResultSet rs=ps.executeQuery();
+    
+    if(rs.next())
+    {
+    tr=rs.getString(1);
+    }
+    
+    return tr;
+    
+    }*/
+    
     
     
     boolean WSLogin(String n,String e, String p) throws SQLException

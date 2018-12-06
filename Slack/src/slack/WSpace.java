@@ -5,6 +5,13 @@
  */
 package slack;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static slack.Login.user;
+import static slack.MainMenu.CurrentWorkspace;
+
 /**
  *
  * @author mac
@@ -36,6 +43,11 @@ public class WSpace extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -76,6 +88,25 @@ public class WSpace extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ArrayList<String> arr =null;
+        Workspace ws=null;
+        String current = CurrentWorkspace;
+        
+        try {
+            ws = new Workspace(current);
+            arr = ws.getUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            for (int i = 0; i < arr.size(); i++) 
+            {
+            jComboBox1.addItem(arr.get(i));
+            }
+                                    
+    }//GEN-LAST:event_formWindowOpened
 
     
 
