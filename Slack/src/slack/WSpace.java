@@ -23,6 +23,7 @@ public class WSpace extends javax.swing.JFrame {
     /**
      * Creates new form WSpace
      */
+    public static String CurrentChat;
     public WSpace() {
         initComponents();
     }
@@ -138,7 +139,16 @@ public class WSpace extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        CurrentChat=(String)jComboBox1.getSelectedItem();
+        PmFrame mainFrame=new PmFrame(user.getName(), CurrentChat);
+            mainFrame.setTitle("DirectMessage");
+            mainFrame.setLocation(400,150);
+            mainFrame.setSize(320,350);
+            mainFrame.setVisible(true);
+            
+            this.setVisible(false);
+            this.dispose();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

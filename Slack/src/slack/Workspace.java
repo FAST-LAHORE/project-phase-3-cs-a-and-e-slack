@@ -51,7 +51,7 @@ public class Workspace
         {
             users.add(rs.getString("USERNAME"));
         }
-       
+       users.remove(creator);
     }
     boolean createWorkspace() throws SQLException
     {

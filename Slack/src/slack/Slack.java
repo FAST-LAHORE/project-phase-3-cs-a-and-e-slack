@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -145,6 +145,30 @@ public class Slack {
         return rs;
     }
     
+    
+    ResultSet GetDirectMessages(String u, String p) throws SQLException
+    {
+        String q = "SELECT MESSAGES, SENDER FROM HARIS.DIRECTMESSAGES WHERE SENDER =? AND RECEIVER =? OR SENDER=? AND RECEIVER=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1, u);
+        ps.setString(2, p);
+        ps.setString(3, p);
+        ps.setString(4, u);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
+
+    
+    public void AddDirectMessage(String u, String p, String m) throws SQLException
+    {
+        String q = "INSERT INTO HARIS.DIRECTMESSAGES (MESSAGES, SENDER,RECEIVER )" + "VALUES(?,?,?)";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,m);
+        ps.setString(2,u);
+        ps.setString(3,p);
+        ps.executeUpdate();
+    }
+
     int IDbyName(String n) throws SQLException
     {
         String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
