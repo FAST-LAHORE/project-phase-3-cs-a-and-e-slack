@@ -113,7 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jButton3);
         jButton3.setBounds(110, 130, 97, 29);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/back-button.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton4.setBorder(null);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +127,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(30, 10, 250, 284);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
         jButton5.setBorder(null);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
