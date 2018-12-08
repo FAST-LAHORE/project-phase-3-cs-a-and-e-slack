@@ -5,6 +5,9 @@
  */
 package slack;
 
+import javax.swing.JFrame;
+import static slack.Slack.stack;
+
 /**
  *
  * @author mac
@@ -72,8 +75,13 @@ public class JoinWorkspace extends javax.swing.JFrame {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
-        jButton4.setBounds(0, 0, 40, 16);
+        jButton4.setBounds(10, 10, 40, 16);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
         jButton5.setBorder(null);
@@ -95,6 +103,18 @@ public class JoinWorkspace extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTextField1.setText(" ");
     }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+         if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+           
+            
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
