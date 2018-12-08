@@ -58,9 +58,10 @@ public class WSpace extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
 
         jLabel5.setText("jLabel5");
 
@@ -111,7 +112,7 @@ public class WSpace extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(0, -1, 80, 40);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/icons8-refresh-50.png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +129,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(230, 190, 77, 29);
+        jButton4.setBounds(200, 190, 77, 29);
 
         jLabel6.setText("jLabel6");
         getContentPane().add(jLabel6);
@@ -146,7 +147,16 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
-        jButton7.setBounds(120, 270, 111, 29);
+        jButton7.setBounds(10, 260, 111, 29);
+
+        jButton6.setText("Add Channel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6);
+        jButton6.setBounds(217, 270, 110, 29);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -190,6 +200,7 @@ public class WSpace extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CurrentChat=(String)jComboBox1.getSelectedItem();
+        stack.add(this);
         PmFrame mainFrame=new PmFrame(user.getName(), CurrentChat);
             mainFrame.setTitle("DirectMessage");
             mainFrame.setLocation(400,150);
@@ -270,6 +281,7 @@ public class WSpace extends javax.swing.JFrame {
              }
              else
              {  
+                 stack.add(this);
                  CurrentChannel = option;
                  ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
                  mainFrame.setTitle("Channel");
@@ -321,6 +333,19 @@ public class WSpace extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        AddChannelFrame mainFrame=new AddChannelFrame();
+                mainFrame.setTitle("Channel");
+                mainFrame.setLocation(400,150);
+                mainFrame.setSize(320,350);
+                mainFrame.setVisible(true);
+            
+                this.setVisible(false);
+                this.dispose();
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -329,6 +354,7 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
