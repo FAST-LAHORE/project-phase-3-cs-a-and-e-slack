@@ -16,7 +16,14 @@ import static slack.MainMenu.CurrentWorkspace;
 import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
 import static slack.Slack.obj;
-
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -61,7 +68,7 @@ public class WSpace extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
 
         jLabel5.setText("jLabel5");
 
@@ -112,7 +119,7 @@ public class WSpace extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(0, -1, 80, 40);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/icons8-refresh-50.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,7 +328,41 @@ public class WSpace extends javax.swing.JFrame {
                 }
                 
                 if(f==true)
+                {
                     JOptionPane.showMessageDialog(rootPane, "Invitation Sent !");
+                    Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+
+		Session session = Session.getDefaultInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("crickethowzat7@gmail.com","howzathowzat");
+				}
+			});
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("crickethowzat7@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(name));
+			message.setSubject("Invitation to Slack");
+			message.setText("Dear "+ name +
+					"You have been invited to Workspace : "+wsp.getName()+" by : "+wsp.getCreator());
+
+			Transport.send(message);
+
+			System.out.println("Done");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+                }
                 else
                     JOptionPane.showMessageDialog(rootPane, "Invalid Email !");
             
@@ -335,14 +376,14 @@ public class WSpace extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        AddChannelFrame mainFrame=new AddChannelFrame();
-                mainFrame.setTitle("Channel");
-                mainFrame.setLocation(400,150);
-                mainFrame.setSize(320,350);
-                mainFrame.setVisible(true);
-            
-                this.setVisible(false);
-                this.dispose();
+        /*AddChannelFrame mainFrame=new AddChannelFrame();
+        mainFrame.setTitle("Channel");
+        mainFrame.setLocation(400,150);
+        mainFrame.setSize(320,350);
+        mainFrame.setVisible(true);
+        
+        this.setVisible(false);
+        this.dispose();*/
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
