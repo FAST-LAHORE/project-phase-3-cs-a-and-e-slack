@@ -63,7 +63,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel1.setText("Main Menu");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(110, 0, 98, 15);
+        jLabel1.setBounds(110, 0, 98, 16);
 
         jButton1.setText("Create Workspace");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -87,11 +87,11 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(60, 90, 190, 26);
+        jComboBox1.setBounds(60, 90, 190, 29);
 
         jLabel3.setText("Select a Workspace");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(90, 60, 140, 15);
+        jLabel3.setBounds(90, 60, 140, 16);
 
         jButton2.setText("Join a Workspace");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -265,6 +265,11 @@ public class MainMenu extends javax.swing.JFrame {
          
         if(flag==true)
         {
+            try {
+                wsp=new Workspace(CurrentWorkspace);
+            } catch (SQLException ex) {
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             stack.add(this);
                     
          WSpace mainFrame=new WSpace();

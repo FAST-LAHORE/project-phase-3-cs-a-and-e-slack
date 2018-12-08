@@ -5,6 +5,9 @@
  */
 package slack;
 
+import javax.swing.JFrame;
+import static slack.Slack.stack;
+
 /**
  *
  * @author mac
@@ -32,13 +35,15 @@ public class JoinWorkspace extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(70, 90, 160, 24);
+        jComboBox1.setBounds(70, 90, 160, 27);
 
         jButton1.setText("Accept");
         jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -48,7 +53,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
         jButton2.setText("Reject");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jButton2);
-        jButton2.setBounds(160, 130, 32, 17);
+        jButton2.setBounds(160, 130, 40, 18);
 
         jTextField1.setText("Enter Access Code");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -62,11 +67,26 @@ public class JoinWorkspace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(60, 200, 180, 19);
+        jTextField1.setBounds(60, 200, 180, 26);
 
         jButton3.setText("Join");
         getContentPane().add(jButton3);
-        jButton3.setBounds(100, 230, 53, 25);
+        jButton3.setBounds(100, 230, 75, 29);
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+        jButton4.setBounds(10, 10, 40, 16);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setBorder(null);
+        getContentPane().add(jButton5);
+        jButton5.setBounds(250, 0, 50, 70);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -83,6 +103,18 @@ public class JoinWorkspace extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTextField1.setText(" ");
     }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+         if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+           
+            
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,6 +155,8 @@ public class JoinWorkspace extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
