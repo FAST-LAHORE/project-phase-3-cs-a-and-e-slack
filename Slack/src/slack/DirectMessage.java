@@ -43,4 +43,9 @@ public class DirectMessage extends Chats
     {
         obj.AddDirectMessage(user, person, message);
     }
+    
+    public void Addfile() throws SQLException
+    {
+        
+    }
 }
