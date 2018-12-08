@@ -7,10 +7,14 @@ package slack;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 import static slack.Slack.stack;
 
 /**
@@ -31,8 +35,23 @@ public class PmFrame extends javax.swing.JFrame {
 //        jScrollPane1.repaint();
         initComponents();
                jTextArea1.setEditable(false);
+     
+    ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+exec.scheduleAtFixedRate(new Runnable() {
+           public void run() {
+               try {
+                   // code to execute repeatedly
+                   LoadMessages();
+                   int len = jTextArea1.getDocument().getLength();
+                    jTextArea1.setCaretPosition(len);
+                    jTextArea1.requestFocusInWindow();
+               } catch (SQLException ex) {
+                   Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
+               }
+           }
+       }, 0, 5, TimeUnit.SECONDS);
+               
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

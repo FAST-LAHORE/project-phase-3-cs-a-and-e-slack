@@ -114,6 +114,15 @@ public class Workspace
         return Publicchannels;
     }
     
+    String getCreator()
+    {
+     return creator;   
+    }
+    
+    String getName()
+    {
+     return name;   
+    }
     
     
 }

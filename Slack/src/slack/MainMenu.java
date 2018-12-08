@@ -265,6 +265,11 @@ public class MainMenu extends javax.swing.JFrame {
          
         if(flag==true)
         {
+            try {
+                wsp=new Workspace(CurrentWorkspace);
+            } catch (SQLException ex) {
+                Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             stack.add(this);
                     
          WSpace mainFrame=new WSpace();

@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
+import static slack.Slack.obj;
+
 
 /**
  *
@@ -26,7 +30,8 @@ public class WSpace extends javax.swing.JFrame {
     public static String CurrentChat;
     public static String CurrentChannel;
     //public static String CurrentUser;
-    public WSpace() {
+    public WSpace() 
+    {
         CurrentChannel = " ";
         initComponents();
     }
@@ -45,12 +50,15 @@ public class WSpace extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
 
@@ -85,8 +93,6 @@ public class WSpace extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(110, 110, 97, 29);
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(110, 0, 140, 20);
 
         jLabel4.setText("Channel Chat");
         getContentPane().add(jLabel4);
@@ -123,6 +129,28 @@ public class WSpace extends javax.swing.JFrame {
         });
         getContentPane().add(jButton4);
         jButton4.setBounds(230, 190, 77, 29);
+
+        jLabel6.setText("jLabel6");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(130, 0, 45, 16);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setBorder(null);
+        getContentPane().add(jButton5);
+        jButton5.setBounds(270, 0, 66, 60);
+
+        jButton7.setText("Invite User");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton7);
+        jButton7.setBounds(120, 270, 111, 29);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(30, 20, 320, 270);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -261,6 +289,38 @@ public class WSpace extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        if(wsp.getCreator().equals(user.getName()))
+        {
+            String name=null;
+                while(name==null)
+                {
+                    name=JOptionPane.showInputDialog(rootPane, "Add email to invite user");
+                }
+                
+                boolean f=false;
+                
+                try {
+                    f=obj.SendInvite(obj.IDbyName(wsp.getName()),wsp.getName(),name);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                if(f==true)
+                    JOptionPane.showMessageDialog(rootPane, "Invitation Sent !");
+                else
+                    JOptionPane.showMessageDialog(rootPane, "Invalid Email !");
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Youre not an admin");
+        }
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -268,6 +328,8 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -275,5 +337,6 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }
