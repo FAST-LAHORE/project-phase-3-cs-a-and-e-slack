@@ -65,8 +65,9 @@ public class JoinWorkspace extends javax.swing.JFrame {
         jTextField1.setBounds(60, 200, 180, 26);
 
         jButton3.setText("Join");
+        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jButton3);
-        jButton3.setBounds(100, 230, 75, 29);
+        jButton3.setBounds(100, 230, 26, 18);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
