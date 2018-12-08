@@ -44,4 +44,9 @@ public class Channel extends Chats
     {
         obj.AddChannelMessage(message ,user, name, CurrentWorkspace );
     }
+    
+    public void Addfile() throws SQLException
+    {
+        
+    }
 }
