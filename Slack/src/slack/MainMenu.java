@@ -63,7 +63,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jLabel1.setText("Main Menu");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(110, 0, 98, 15);
+        jLabel1.setBounds(110, 0, 98, 16);
 
         jButton1.setText("Create Workspace");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -87,11 +87,11 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(60, 90, 190, 26);
+        jComboBox1.setBounds(60, 90, 190, 29);
 
         jLabel3.setText("Select a Workspace");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(90, 60, 140, 15);
+        jLabel3.setBounds(90, 60, 140, 16);
 
         jButton2.setText("Join a Workspace");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -113,7 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jButton3);
         jButton3.setBounds(110, 130, 97, 29);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/back-button.png"))); // NOI18N
         jButton4.setBorder(null);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +127,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(30, 10, 250, 284);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/icons8-refresh-50.png"))); // NOI18N
         jButton5.setBorder(null);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

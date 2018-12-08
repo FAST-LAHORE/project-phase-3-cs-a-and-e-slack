@@ -70,11 +70,11 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(70, 80, 170, 24);
+        jComboBox1.setBounds(70, 80, 170, 27);
 
         jLabel2.setText("Private Chat");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(120, 60, 100, 15);
+        jLabel2.setBounds(120, 60, 100, 16);
 
         jButton1.setText("Open");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -90,14 +90,13 @@ public class WSpace extends javax.swing.JFrame {
 
         jLabel4.setText("Channel Chat");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(110, 160, 100, 15);
+        jLabel4.setBounds(110, 160, 100, 16);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Private" }));
         getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(20, 190, 170, 24);
+        jComboBox2.setBounds(20, 190, 170, 27);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
-        jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -114,7 +113,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(260, 0, 50, 60);
+        jButton3.setBounds(260, 0, 0, 60);
 
         jButton4.setText("Open");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +122,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(230, 190, 60, 25);
+        jButton4.setBounds(230, 190, 77, 29);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
