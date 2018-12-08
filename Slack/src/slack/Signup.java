@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static slackProject.Slack.obj;
-import static slackProject.Slack.stack;
+import static slack.Slack.obj;
+import static slack.Slack.stack;
 
 /**
  *
@@ -93,7 +93,7 @@ public class Signup extends javax.swing.JFrame {
         getContentPane().add(jPasswordField1);
         jPasswordField1.setBounds(60, 210, 220, 19);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(40, 30, 260, 240);
 
@@ -116,7 +116,7 @@ public class Signup extends javax.swing.JFrame {
         getContentPane().add(jLabel8);
         jLabel8.setBounds(220, 270, 140, 15);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/back-button.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

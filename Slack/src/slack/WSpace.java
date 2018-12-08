@@ -52,7 +52,7 @@ public class WSpace extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
 
         jLabel5.setText("jLabel5");
 
@@ -96,7 +96,7 @@ public class WSpace extends javax.swing.JFrame {
         getContentPane().add(jComboBox2);
         jComboBox2.setBounds(20, 190, 170, 24);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/back-button.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +106,7 @@ public class WSpace extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(0, -1, 80, 40);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/icons8-refresh-50.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

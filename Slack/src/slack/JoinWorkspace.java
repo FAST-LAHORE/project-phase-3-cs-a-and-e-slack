@@ -68,7 +68,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
         getContentPane().add(jButton3);
         jButton3.setBounds(100, 230, 53, 25);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(30, 0, 260, 300);
 
