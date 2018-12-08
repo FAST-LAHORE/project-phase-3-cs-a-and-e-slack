@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import static slack.Slack.conn;
 import static slack.Slack.obj;
-
+import static slack.Login.user;
 /**
  *
  * @author mac
@@ -22,6 +22,8 @@ public class Workspace
     private String password;
     private String creator;
     ArrayList<String> users=new ArrayList<>();
+    ArrayList<String> Privatechannels=new ArrayList<>();
+    ArrayList<String> Publicchannels=new ArrayList<>();
     ArrayList<Chats> chats;
     
     Workspace(String n, String c,String p) throws SQLException //creates new workspace
@@ -30,7 +32,8 @@ public class Workspace
         password=p;
         creator=c;
         GetMembers();
-       
+       GetPrivateChannels();
+       GetPublicChannels();
     }
     
     Workspace(String n) throws SQLException
@@ -43,6 +46,8 @@ public class Workspace
             password = rs.getString("password");
         }
         GetMembers();
+        GetPrivateChannels();
+        GetPublicChannels();
     }
     void GetMembers() throws SQLException
     {
@@ -51,7 +56,29 @@ public class Workspace
         {
             users.add(rs.getString("USERNAME"));
         }
-       users.remove(creator);
+       users.remove(user.getName());
+    }
+    
+    void GetPrivateChannels() throws SQLException
+    {
+        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "private");
+        while(rs.next())
+        {
+            Privatechannels.add(rs.getString("CHANNEL"));
+            //channelType.add(rs.getString("Type"));
+        }
+        
+    }
+    
+     void GetPublicChannels() throws SQLException
+    {
+        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "public");
+        while(rs.next())
+        {
+            Publicchannels.add(rs.getString("CHANNEL"));
+            //channelType.add(rs.getString("Type"));
+        }
+        
     }
     boolean createWorkspace() throws SQLException
     {
@@ -69,6 +96,22 @@ public class Workspace
             users.clear();
         GetMembers();
         return users;
+    }
+    
+    ArrayList<String> getPrivateChannels() throws SQLException
+    {
+        if(Privatechannels!=null)
+            Privatechannels.clear();
+        GetPrivateChannels();
+        return Privatechannels;
+    }
+    
+    ArrayList<String> getPublicChannels() throws SQLException
+    {
+        if(Publicchannels!=null)
+            Publicchannels.clear();
+        GetPublicChannels();
+        return Publicchannels;
     }
     
     

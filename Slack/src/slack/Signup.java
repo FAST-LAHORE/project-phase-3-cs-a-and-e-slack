@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static slack.Slack.obj;
-import static slack.Slack.stack;
+import static slackProject.Slack.obj;
+import static slackProject.Slack.stack;
 
 /**
  *
@@ -62,13 +62,13 @@ public class Signup extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(50, 90, 230, 26);
+        jTextField1.setBounds(50, 90, 230, 19);
         getContentPane().add(jTextField2);
-        jTextField2.setBounds(50, 150, 230, 26);
+        jTextField2.setBounds(50, 150, 230, 19);
 
         jLabel2.setText("Welcome to Slack Singup");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(100, 10, 170, 16);
+        jLabel2.setBounds(100, 10, 170, 15);
 
         jButton1.setText("Signup");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +77,7 @@ public class Signup extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(120, 260, 87, 29);
+        jButton1.setBounds(120, 260, 67, 25);
 
         jLabel3.setText("Name");
         getContentPane().add(jLabel3);
@@ -85,15 +85,15 @@ public class Signup extends javax.swing.JFrame {
 
         jLabel4.setText("Email");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(10, 150, 34, 30);
+        jLabel4.setBounds(10, 150, 24, 30);
 
         jLabel5.setText("Password");
         getContentPane().add(jLabel5);
         jLabel5.setBounds(0, 210, 60, 30);
         getContentPane().add(jPasswordField1);
-        jPasswordField1.setBounds(60, 210, 220, 26);
+        jPasswordField1.setBounds(60, 210, 220, 19);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(40, 30, 260, 240);
 
@@ -114,9 +114,9 @@ public class Signup extends javax.swing.JFrame {
 
         jLabel8.setText(" ");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(220, 270, 140, 16);
+        jLabel8.setBounds(220, 270, 140, 15);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/back-button.png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

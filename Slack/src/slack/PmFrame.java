@@ -25,7 +25,9 @@ public class PmFrame extends javax.swing.JFrame {
         user = p1;
         selected = p2;
        DC = new DirectMessage(user, selected);
-       textArea1.setEditable(false);
+       jTextArea1.setEditable(false);
+//        jScrollPane1.revalidate();
+//        jScrollPane1.repaint();
         initComponents();
     }
 
@@ -39,10 +41,10 @@ public class PmFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        textArea1 = new java.awt.TextArea();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -50,11 +52,13 @@ public class PmFrame extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
-        getContentPane().setLayout(null);
 
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(110, 10, 100, 16);
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         jTextField1.setText("Type message");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -67,8 +71,6 @@ public class PmFrame extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(45, 238, 166, 30);
 
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -76,14 +78,39 @@ public class PmFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(217, 240, 75, 29);
-        getContentPane().add(textArea1);
-        textArea1.setBounds(40, 40, 240, 190);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(30, 0, 280, 290);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)))))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -94,10 +121,6 @@ public class PmFrame extends javax.swing.JFrame {
         jTextField1.setText("Type Message");
         try {
             DC.AddMessage(message);
-        } catch (SQLException ex) {
-            Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
             LoadMessages();
         } catch (SQLException ex) {
             Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,7 +134,8 @@ public class PmFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jLabel1.setText(selected);
         
-        textArea1.setEditable(false);
+       
+        jTextArea1.setEditable(false);
         try {
             LoadMessages();
         } catch (SQLException ex) {
@@ -125,13 +149,13 @@ public class PmFrame extends javax.swing.JFrame {
     
     private void LoadMessages() throws SQLException
     {
-        textArea1.setText(" ");
+        jTextArea1.setText(" ");
         ArrayList<String> Chat=DC.GetChat();
         String a;
         while(!Chat.isEmpty())
         {
             a = Chat.remove(0);
-            textArea1.append(a + "\n");
+            jTextArea1.append(a + "\n");
         }
     }
     /**
@@ -172,8 +196,8 @@ public class PmFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private java.awt.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }

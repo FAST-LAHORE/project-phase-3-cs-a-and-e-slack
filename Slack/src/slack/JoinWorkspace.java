@@ -38,7 +38,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(70, 90, 160, 27);
+        jComboBox1.setBounds(70, 90, 160, 24);
 
         jButton1.setText("Accept");
         jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -48,7 +48,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
         jButton2.setText("Reject");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jButton2);
-        jButton2.setBounds(160, 130, 40, 18);
+        jButton2.setBounds(160, 130, 32, 17);
 
         jTextField1.setText("Enter Access Code");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -62,14 +62,13 @@ public class JoinWorkspace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(60, 200, 180, 26);
+        jTextField1.setBounds(60, 200, 180, 19);
 
         jButton3.setText("Join");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jButton3);
-        jButton3.setBounds(100, 230, 26, 18);
+        jButton3.setBounds(100, 230, 53, 25);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slackProject/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(30, 0, 260, 300);
 

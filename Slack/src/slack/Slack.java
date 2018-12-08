@@ -18,13 +18,13 @@ public class Slack {
 
     public static Stack<JFrame> stack=new Stack<>();
     public static Connection conn;
-    
+    public static String CurrentUser;
     Slack()
     {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -145,7 +145,18 @@ public class Slack {
         return rs;
     }
     
+    ResultSet GetJoinedChannels(String n, String m, String p) throws SQLException
+    {
+        String q="SELECT CHANNEL, TYPE FROM HARIS.MYCHANNELS WHERE USERNAME =? AND WORKSPACE = ? AND TYPE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(2,n);     
+        ps.setString(1,m);
+        ps.setString(3,p);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
     
+    //ResultSet GetChannelType()
     ResultSet GetDirectMessages(String u, String p) throws SQLException
     {
         String q = "SELECT MESSAGES, SENDER FROM HARIS.DIRECTMESSAGES WHERE SENDER =? AND RECEIVER =? OR SENDER=? AND RECEIVER=?";
@@ -169,6 +180,28 @@ public class Slack {
         ps.executeUpdate();
     }
 
+    public void AddChannelMessage(String m, String u, String c,  String w) throws SQLException
+    {
+        String q = "INSERT INTO HARIS.CHANNELMESSAGES (MESSAGE, SENDER,CHANNEL,WORKSPACE )" + "VALUES(?,?,?,?)";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,m);
+        ps.setString(2,u);
+        ps.setString(3,c);
+        ps.setString(4,w);
+        ps.executeUpdate();
+    }
+    
+    ResultSet GetChannelMessages(String c, String w) throws SQLException
+    {
+        String q = "SELECT MESSAGE, SENDER FROM HARIS.CHANNELMESSAGES WHERE CHANNEL =? AND WORKSPACE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1, c);
+        ps.setString(2, w);
+       
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
+    
     int IDbyName(String n) throws SQLException
     {
         String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";

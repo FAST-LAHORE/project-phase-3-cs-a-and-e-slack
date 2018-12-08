@@ -12,4 +12,8 @@ package slack;
 public class PublicChannel extends Channel 
 {
     
+    public PublicChannel(String u, String n) {
+        super(u, n);
+    }
+    
 }

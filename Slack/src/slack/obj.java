@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package slack;
+package slackProject;
 
 /**
  *
- * @author mac
+ * @author saira
  */
-public class PrivateChannel extends Channel
-{
-    
-    public PrivateChannel(String u, String n) {
-        super(u, n);
-    }
-    
+class obj {
     
 }
