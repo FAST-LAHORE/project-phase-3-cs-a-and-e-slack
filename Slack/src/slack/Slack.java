@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -61,13 +61,14 @@ public class Slack {
        return false;
     }
     
-    boolean createWorkspace(String wname,String creator,String pass) throws SQLException
+    boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
-        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD)"+"VALUES ( ?, ?,?)";
+        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         ps.setString(1, wname);
         ps.setString(2, creator);
         ps.setString(3, pass);
+        ps.setString(4, acode);
         
         
         int tr= ps.executeUpdate();

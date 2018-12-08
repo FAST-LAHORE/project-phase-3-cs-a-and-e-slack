@@ -22,16 +22,18 @@ public class Workspace
     private String name;
     private String password;
     private String creator;
+    private String accesscode;
     ArrayList<String> users=new ArrayList<>();
     ArrayList<String> Privatechannels=new ArrayList<>();
     ArrayList<String> Publicchannels=new ArrayList<>();
     ArrayList<Chats> chats;
     
-    Workspace(String n, String c,String p) throws SQLException //creates new workspace
+    Workspace(String n, String c,String p,String acode) throws SQLException //creates new workspace
     {
         name=n;
         password=p;
         creator=c;
+        accesscode=acode;
         GetMembers();
        GetPrivateChannels();
        GetPublicChannels();
@@ -83,7 +85,7 @@ public class Workspace
     }
     boolean createWorkspace() throws SQLException
     {
-        return obj.createWorkspace(name, creator, password);
+        return obj.createWorkspace(name, creator, password,accesscode);
     }
     
     void addUser(String a)
