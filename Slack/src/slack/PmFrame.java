@@ -26,8 +26,6 @@ public class PmFrame extends javax.swing.JFrame {
         selected = p2;
        DC = new DirectMessage(user, selected);
        textArea1.setEditable(false);
-//        jScrollPane1.revalidate();
-//        jScrollPane1.repaint();
         initComponents();
     }
 
