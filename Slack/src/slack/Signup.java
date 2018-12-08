@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static slackProject.Slack.obj;
-import static slackProject.Slack.stack;
+import static slack.Slack.obj;
+import static slack.Slack.stack;
 
 /**
  *
