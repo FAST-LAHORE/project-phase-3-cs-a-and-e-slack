@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 import static slack.Slack.conn;
 import static slack.Slack.obj;
 import static slack.Login.user;
@@ -96,6 +97,18 @@ public class Workspace
             users.clear();
         GetMembers();
         return users;
+    }
+    
+    ArrayList<String> getAllPublicChannels() throws SQLException
+    {
+        ResultSet rs = obj.GetAllPublicChannels(name);
+        ArrayList<String> AllChannels = new ArrayList<>();
+        while(rs.next())
+        {
+            AllChannels.add(rs.getString("NAME"));
+        }
+        
+        return AllChannels;
     }
     
     ArrayList<String> getPrivateChannels() throws SQLException

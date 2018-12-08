@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             return;
@@ -191,6 +191,15 @@ public class Slack {
         ps.executeUpdate();
     }
     
+    ResultSet GetAllPublicChannels(String w) throws SQLException
+    {
+        String q="SELECT NAME FROM HARIS.CHANNEL WHERE WORKSPACE = ? AND TYPE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,w);   
+        ps.setString(2,"public");
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
     ResultSet GetChannelMessages(String c, String w) throws SQLException
     {
         String q = "SELECT MESSAGE, SENDER FROM HARIS.CHANNELMESSAGES WHERE CHANNEL =? AND WORKSPACE=?";
