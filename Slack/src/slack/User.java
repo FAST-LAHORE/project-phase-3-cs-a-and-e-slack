@@ -21,6 +21,10 @@ public class User
  private String name;
  private String email;
  private String password;
+ private String phone;
+ private String job;
+ private String displayName;
+ private String skype;
  ArrayList<String> created;
  ArrayList<String> Joined;
  
@@ -72,5 +76,16 @@ public class User
     {
         Joined.add(obj);
     }
-    
+    public String getPhone(){
+        return phone;
+    }
+    public String getJob(){
+        return job;
+    }
+    public String getdisplayName(){
+        return displayName;
+    }
+    public String getSkype(){
+        return skype;
+    }
 }
