@@ -154,6 +154,7 @@ public class MainMenu extends javax.swing.JFrame {
          String Wname=null;
          boolean flag=false;
          String pass=null;
+         String acode=null;
          
          while(Wname==null)
          {
@@ -169,6 +170,14 @@ public class MainMenu extends javax.swing.JFrame {
                  pass=null;
          }
          
+         while(acode==null)
+         {
+             acode=JOptionPane.showInputDialog(rootPane, "Create an access code for this workspace");
+             if("".equals(pass))
+                 acode=null;
+         }
+         
+         
          int x=JOptionPane.showConfirmDialog(null, "Do you accept the License agreement?","License Agreement",JOptionPane.YES_NO_OPTION);
        
          
@@ -177,7 +186,7 @@ public class MainMenu extends javax.swing.JFrame {
          {
              Workspace ws=null;
              try {
-                 ws = new Workspace(Wname,user.getName(),pass);
+                 ws = new Workspace(Wname,user.getName(),pass,acode);
              } catch (SQLException ex) {
                  Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
              }
