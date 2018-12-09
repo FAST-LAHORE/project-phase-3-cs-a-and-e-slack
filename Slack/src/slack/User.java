@@ -43,6 +43,11 @@ public class User
      if(rs.next())
      {
          name=rs.getString("Name");
+         phone = rs.getString("PHONE");
+         skype = rs.getString("SKYPE");
+         displayName = rs.getString("DISPLAY_NAME");
+         job = rs.getString("JOB");
+         
          return true;
      }
      else
@@ -55,18 +60,27 @@ public class User
        name=n;
        return obj.Signup(name, email, password);
     }
- 
+    boolean update(String fn,String dn,String j,String p,String s, String e) throws SQLException{
+        return obj.update(fn,dn,j,p,s,e);
+    }
+    boolean changePassword(String np) throws SQLException{
+        return obj.updatePassword(np,email);
+    }
     String getName()
     {
         return email;
     }
-    
+    public String getEmail(){
+        return email;
+    }
+    public String getuserName(){
+        return name;
+    }
     ArrayList<String> myWorkspace() throws SQLException
     {
         Joined=obj.myWorkspace(email);
        return Joined;
     }
-    
     void addCreatedWS(String obj)
     {
         created.add(obj);
@@ -81,6 +95,9 @@ public class User
     }
     public String getSkype(){
         return skype;
+    }
+    public String getPassword(){
+        return password;
     }
     public String getdisplayName(){
         return displayName;

@@ -60,7 +60,34 @@ public class Slack {
            return true;
        return false;
     }
-    
+    boolean update(String fn,String dn,String j,String p,String s,String e) throws SQLException{
+        String query = "UPDATE LOGIN SET \"NAME\" = ?, PHONE = ?,DISPLAY_NAME = ?,JOB = ?,SKYPE = ? WHERE EMAIL = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, fn);
+        ps.setString(2, p);
+        ps.setString(3, dn);
+        ps.setString(4, j);
+        ps.setString(5, s);
+        ps.setString(6, e);
+        int r = ps.executeUpdate();
+        if(r > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    boolean updatePassword(String np,String e) throws SQLException{
+        String query = "UPDATE LOGIN SET PASSWORD = ? WHERE EMAIL = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1,np);
+        ps.setString(2, e);
+        int r = ps.executeUpdate();
+        if(r > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
         String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
