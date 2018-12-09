@@ -15,7 +15,10 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+import static slack.Login.user;
 import static slack.Slack.stack;
+import static slack.WSpace.CurrentChannel;
 
 /**
  *
@@ -27,6 +30,7 @@ public class PmFrame extends javax.swing.JFrame {
     private String selected;
     private Slack obj;
     DirectMessage DC;
+    DefaultTableModel model;
     public PmFrame(String p1, String p2) {
         user = p1;
         selected = p2;
@@ -34,17 +38,17 @@ public class PmFrame extends javax.swing.JFrame {
 //        jScrollPane1.revalidate();
 //        jScrollPane1.repaint();
         initComponents();
-               jTextArea1.setEditable(false);
-     
+              // jTextArea1.setEditable(false);
+               model = (DefaultTableModel) jTable1.getModel();
     ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
 exec.scheduleAtFixedRate(new Runnable() {
            public void run() {
                try {
                    // code to execute repeatedly
                    LoadMessages();
-                   int len = jTextArea1.getDocument().getLength();
-                    jTextArea1.setCaretPosition(len);
-                    jTextArea1.requestFocusInWindow();
+                   //int len = jTextArea1.getDocument().getLength();
+                   // jTextArea1.setCaretPosition(len);
+                   // jTextArea1.requestFocusInWindow();
                } catch (SQLException ex) {
                    Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -62,12 +66,11 @@ exec.scheduleAtFixedRate(new Runnable() {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,15 +82,7 @@ exec.scheduleAtFixedRate(new Runnable() {
 
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(100, 6, 100, 16);
-
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(45, 34, 202, 192);
+        jLabel1.setBounds(100, 6, 100, 15);
 
         jTextField1.setText("Type message");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,7 +105,7 @@ exec.scheduleAtFixedRate(new Runnable() {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(217, 240, 75, 29);
+        jButton1.setBounds(217, 240, 59, 25);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -122,9 +117,31 @@ exec.scheduleAtFixedRate(new Runnable() {
         getContentPane().add(jButton2);
         jButton2.setBounds(0, 0, 70, 18);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(20, 30, 290, 250);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(30, 30, 240, 190);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -149,7 +166,7 @@ exec.scheduleAtFixedRate(new Runnable() {
         jLabel1.setText(selected);
         
        
-        jTextArea1.setEditable(false);
+      //  jTextArea1.setEditable(false);
         try {
             LoadMessages();
         } catch (SQLException ex) {
@@ -173,16 +190,58 @@ exec.scheduleAtFixedRate(new Runnable() {
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int selectedrow = jTable1.getSelectedRow();
+        String selected = (String)jTable1.getValueAt(selectedrow, 0);
+        if(selectedrow%2==0)
+        {
+            
+        }
+        else
+        {    
+            String userS = (String)jTable1.getValueAt(selectedrow-1, 0);
+            Thread t = new Thread(selected, userS);
+            threadFrame mainFrame=new threadFrame(t);
+          mainFrame.setTitle("Message");
+          mainFrame.setLocation(400,150);
+          mainFrame.setSize(320,350);
+          mainFrame.setVisible(true);
+            
+          this.setVisible(false);
+          this.dispose();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
     
     private void LoadMessages() throws SQLException
     {
-        jTextArea1.setText(" ");
+        //jTextArea1.setText(" ");
+         while(model.getRowCount() !=0)
+                 model.removeRow(0);
         ArrayList<String> Chat=DC.GetChat();
         String a;
+       // String prev;
+       // int count=1;
+       // a = Chat.remove(0);
+       // prev = a;
+       // model.insertRow(model.getRowCount(),new Object[]{a} );
         while(!Chat.isEmpty())
         {
             a = Chat.remove(0);
-            jTextArea1.append(a + "\n");
+         //   if(count%2 ==0)
+          //  {    if(prev.equals(a))
+          //          count++;
+            //   else
+           //     {   prev = a;
+            //        model.insertRow(model.getRowCount(),new Object[]{a} );
+           //         count++;
+           //     }
+            //}
+           // else
+            //{ 
+                model.insertRow(model.getRowCount(),new Object[]{a} );
+              //  count++;
+            //}
         }
     }
     /**
@@ -224,9 +283,8 @@ exec.scheduleAtFixedRate(new Runnable() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

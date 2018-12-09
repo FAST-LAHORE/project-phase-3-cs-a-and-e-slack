@@ -376,14 +376,14 @@ public class WSpace extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        /*AddChannelFrame mainFrame=new AddChannelFrame();
+        AddChannelFrame mainFrame=new AddChannelFrame();
         mainFrame.setTitle("Channel");
         mainFrame.setLocation(400,150);
         mainFrame.setSize(320,350);
         mainFrame.setVisible(true);
         
         this.setVisible(false);
-        this.dispose();*/
+        this.dispose();
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
