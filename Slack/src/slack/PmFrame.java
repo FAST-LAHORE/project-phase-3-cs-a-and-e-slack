@@ -53,7 +53,7 @@ exec.scheduleAtFixedRate(new Runnable() {
                    Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
                }
            }
-       }, 0, 5, TimeUnit.SECONDS);
+       }, 0, 10, TimeUnit.SECONDS);
                
     }
     /**

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import static slack.MainMenu.CurrentWorkspace;
+import static slack.Login.user;
+import static slack.MainMenu.wsp;
+
 
 /**
  *
@@ -22,6 +26,7 @@ public class ChannelFrame extends javax.swing.JFrame {
     private String selected;
     private Slack obj;
     private Channel CC;
+    public static int x=0;
     public ChannelFrame(String p1, String p2) {
          user = p1;
         selected = p2;
@@ -96,6 +101,7 @@ public class ChannelFrame extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(290, 270, 67, 23);
 
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("jTextField2");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +109,7 @@ public class ChannelFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField2);
-        jTextField2.setBounds(290, 310, 59, 20);
+        jTextField2.setBounds(290, 300, 70, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -158,14 +164,27 @@ public class ChannelFrame extends javax.swing.JFrame {
         JFileChooser chooser= new JFileChooser();
         chooser.showOpenDialog(null);
         File f=chooser.getSelectedFile();
-        
         filename= f.getAbsolutePath();
-        jTextField2.setText(filename);
+      
+            try
+            {
+              wsp.addfile(slack.Login.user.getName(),filename, CurrentWorkspace);
+            } catch (SQLException ex)
+            {
+               Logger.getLogger(ChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+        
+        jTextField2.setText("File sent");
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**

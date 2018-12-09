@@ -27,7 +27,7 @@ public class Slack {
             conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
-            return;
+            
         }
     }
     
@@ -90,7 +90,8 @@ public class Slack {
     }
     boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
-        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
+       
+        String query="INSERT INTO HARIS.WORKSPACES (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         ps.setString(1, wname);
         ps.setString(2, creator);
@@ -101,7 +102,7 @@ public class Slack {
         int tr= ps.executeUpdate();
          if(tr>0) 
          {
-        String q="Select ID FROM HARIS.WORKSPACE WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
+        String q="Select ID FROM HARIS.WORKSPACES WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
         PreparedStatement pss=conn.prepareStatement(q);
         pss.setString(1, wname);
         pss.setString(2, creator);
@@ -135,7 +136,7 @@ public class Slack {
         
         while(x.next())
         {
-            String q2="Select NAME FROM HARIS.WORKSPACE WHERE ID=? ";
+            String q2="Select NAME FROM HARIS.WORKSPACES WHERE ID=? ";
             PreparedStatement ps2=conn.prepareStatement(q2);
             ps2.setInt(1, x.getInt(1));
             
@@ -156,7 +157,7 @@ public class Slack {
     
     ResultSet GetWorkspaceDetails(String n) throws SQLException
     {
-        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
+        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();
@@ -239,9 +240,33 @@ public class Slack {
         return rs;
     }
     
+    ResultSet getuserfiles(String e, String w) throws SQLException
+    {
+        String q = "SELECT FILEPATH FROM HARIS.USERFILES WHERE EMAIL =? AND WORKSPACE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1, e);
+        ps.setString(2, w);
+       
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
+    public boolean addfile(String e,String p,String w) throws SQLException
+    {
+        String q = "INSERT INTO HARIS.USERFILES (EMAIL,FILEPATH,WORKSPACENAME )" + "VALUES(?,?,?)";
+        PreparedStatement ps=conn.prepareStatement(q);
+        
+        ps.setString(1, e);
+        ps.setString(2, p);
+        ps.setString(3, w);
+        int tr= ps.executeUpdate();
+        if(tr>0)
+            return true;
+        return false;        
+    }
+    
     int IDbyName(String n) throws SQLException
     {
-        String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
+        String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();

@@ -27,6 +27,7 @@ public class Workspace
     ArrayList<String> Privatechannels=new ArrayList<>();
     ArrayList<String> Publicchannels=new ArrayList<>();
     ArrayList<Chats> chats;
+    ArrayList<String> Filepaths;
     
     Workspace(String n, String c,String p,String acode) throws SQLException //creates new workspace
     {
@@ -128,6 +129,12 @@ public class Workspace
         GetPublicChannels();
         return Publicchannels;
     }
+    public boolean addfile(String e,String p,String w) throws SQLException
+    {
+        return obj.addfile(e, p, w);
+    }
+
+            
     
     String getCreator()
     {

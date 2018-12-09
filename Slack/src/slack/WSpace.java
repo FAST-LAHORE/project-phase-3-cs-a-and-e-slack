@@ -13,7 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+
+import static slack.Slack.obj;
+
 import static slack.MainMenu.wsp;
+
 import static slack.Slack.stack;
 import static slack.Slack.obj;
 import java.util.Properties;
@@ -62,6 +66,9 @@ public class WSpace extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+
+        jButton5 = new javax.swing.JButton();
+
         jLabel6 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -86,11 +93,12 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(70, 80, 170, 27);
+        jComboBox1.setBounds(0, 60, 80, 80);
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Private Chat");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(120, 60, 100, 16);
+        jLabel2.setBounds(0, 40, 80, 14);
 
         jButton1.setText("Open");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -100,15 +108,21 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
+        jButton1.setBounds(0, 140, 80, 29);
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(110, 0, 140, 20);
+
         jButton1.setBounds(110, 110, 97, 29);
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Channel Chat");
+        jLabel4.setAlignmentY(0.0F);
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(110, 160, 100, 16);
+        jLabel4.setBounds(0, 180, 80, 14);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Private" }));
         getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(20, 190, 170, 27);
+        jComboBox2.setBounds(0, 200, 80, 80);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +141,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(260, 0, 0, 60);
+        jButton3.setBounds(260, 0, 1, 60);
 
         jButton4.setText("Open");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +150,16 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
+        jButton4.setBounds(0, 280, 80, 30);
+
+        jButton5.setText("My files");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5);
+        jButton5.setBounds(260, 40, 69, 50);
         jButton4.setBounds(200, 190, 77, 29);
 
         jLabel6.setText("jLabel6");
@@ -307,6 +331,21 @@ public class WSpace extends javax.swing.JFrame {
       }
        
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+                stack.add(this);
+
+                fileframe f=new fileframe();
+                f.setTitle(CurrentWorkspace);
+                f.setLocation(400,150);
+                f.setSize(320,350);
+                f.setVisible(true);
+
+                this.setVisible(false);
+                this.dispose();
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
