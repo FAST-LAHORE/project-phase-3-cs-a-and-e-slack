@@ -27,7 +27,7 @@ public class Slack {
             conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
-            return;
+            
         }
     }
     
@@ -61,13 +61,15 @@ public class Slack {
        return false;
     }
     
-    boolean createWorkspace(String wname,String creator,String pass) throws SQLException
+    boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
-        String query="INSERT INTO HARIS.WORKSPACES (\"NAME\", CREATOR,PASSWORD)"+"VALUES ( ?, ?,?)";
+       
+        String query="INSERT INTO HARIS.WORKSPACES (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         ps.setString(1, wname);
         ps.setString(2, creator);
         ps.setString(3, pass);
+        ps.setString(4, acode);
         
         
         int tr= ps.executeUpdate();
@@ -191,6 +193,15 @@ public class Slack {
         ps.executeUpdate();
     }
     
+    ResultSet GetAllPublicChannels(String w) throws SQLException
+    {
+        String q="SELECT NAME FROM HARIS.CHANNEL WHERE WORKSPACE = ? AND TYPE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,w);   
+        ps.setString(2,"public");
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
     ResultSet GetChannelMessages(String c, String w) throws SQLException
     {
         String q = "SELECT MESSAGE, SENDER FROM HARIS.CHANNELMESSAGES WHERE CHANNEL =? AND WORKSPACE=?";

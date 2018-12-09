@@ -5,10 +5,22 @@
  */
 package slack;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author saira
  */
-class obj {
+public class Thread {
+ 
+    String user;
+    String message;
+    ArrayList<String> Replies = new ArrayList<>();
+    Thread(String m, String u)
+    {
+        user = u;
+        message = m;
+    }
+    
     
 }

@@ -10,10 +10,24 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+
 import static slack.Slack.obj;
+
+import static slack.MainMenu.wsp;
+
 import static slack.Slack.stack;
+import static slack.Slack.obj;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -27,7 +41,8 @@ public class WSpace extends javax.swing.JFrame {
     public static String CurrentChat;
     public static String CurrentChannel;
     //public static String CurrentUser;
-    public WSpace() {
+    public WSpace() 
+    {
         CurrentChannel = " ";
         initComponents();
     }
@@ -46,13 +61,19 @@ public class WSpace extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+
         jButton5 = new javax.swing.JButton();
+
+        jLabel6 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
 
@@ -90,6 +111,8 @@ public class WSpace extends javax.swing.JFrame {
         jButton1.setBounds(0, 140, 80, 29);
         getContentPane().add(jLabel3);
         jLabel3.setBounds(110, 0, 140, 20);
+
+        jButton1.setBounds(110, 110, 97, 29);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Channel Chat");
@@ -137,6 +160,38 @@ public class WSpace extends javax.swing.JFrame {
         });
         getContentPane().add(jButton5);
         jButton5.setBounds(260, 40, 69, 50);
+        jButton4.setBounds(200, 190, 77, 29);
+
+        jLabel6.setText("jLabel6");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(130, 0, 45, 16);
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+        jButton5.setBorder(null);
+        getContentPane().add(jButton5);
+        jButton5.setBounds(270, 0, 66, 60);
+
+        jButton7.setText("Invite User");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton7);
+        jButton7.setBounds(10, 260, 111, 29);
+
+        jButton6.setText("Add Channel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6);
+        jButton6.setBounds(217, 270, 110, 29);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(30, 20, 320, 270);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -176,6 +231,7 @@ public class WSpace extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CurrentChat=(String)jComboBox1.getSelectedItem();
+        stack.add(this);
         PmFrame mainFrame=new PmFrame(user.getName(), CurrentChat);
             mainFrame.setTitle("DirectMessage");
             mainFrame.setLocation(400,150);
@@ -256,6 +312,7 @@ public class WSpace extends javax.swing.JFrame {
              }
              else
              {  
+                 stack.add(this);
                  CurrentChannel = option;
                  ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
                  mainFrame.setTitle("Channel");
@@ -290,6 +347,85 @@ public class WSpace extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        if(wsp.getCreator().equals(user.getName()))
+        {
+            String name=null;
+                while(name==null)
+                {
+                    name=JOptionPane.showInputDialog(rootPane, "Add email to invite user");
+                }
+                
+                boolean f=false;
+                
+                try {
+                    f=obj.SendInvite(obj.IDbyName(wsp.getName()),wsp.getName(),name);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                if(f==true)
+                {
+                    JOptionPane.showMessageDialog(rootPane, "Invitation Sent !");
+                    Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+
+		Session session = Session.getDefaultInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("crickethowzat7@gmail.com","howzathowzat");
+				}
+			});
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("crickethowzat7@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(name));
+			message.setSubject("Invitation to Slack");
+			message.setText("Dear "+ name +
+					"You have been invited to Workspace : "+wsp.getName()+" by : "+wsp.getCreator());
+
+			Transport.send(message);
+
+			System.out.println("Done");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+                }
+                else
+                    JOptionPane.showMessageDialog(rootPane, "Invalid Email !");
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Youre not an admin");
+        }
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        AddChannelFrame mainFrame=new AddChannelFrame();
+        mainFrame.setTitle("Channel");
+        mainFrame.setLocation(400,150);
+        mainFrame.setSize(320,350);
+        mainFrame.setVisible(true);
+        
+        this.setVisible(false);
+        this.dispose();
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -298,6 +434,8 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -305,5 +443,6 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

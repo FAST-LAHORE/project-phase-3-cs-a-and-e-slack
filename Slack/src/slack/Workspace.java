@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 import static slack.Slack.conn;
 import static slack.Slack.obj;
 import static slack.Login.user;
@@ -21,17 +22,19 @@ public class Workspace
     private String name;
     private String password;
     private String creator;
+    private String accesscode;
     ArrayList<String> users=new ArrayList<>();
     ArrayList<String> Privatechannels=new ArrayList<>();
     ArrayList<String> Publicchannels=new ArrayList<>();
     ArrayList<Chats> chats;
     ArrayList<String> Filepaths;
     
-    Workspace(String n, String c,String p) throws SQLException //creates new workspace
+    Workspace(String n, String c,String p,String acode) throws SQLException //creates new workspace
     {
         name=n;
         password=p;
         creator=c;
+        accesscode=acode;
         GetMembers();
        GetPrivateChannels();
        GetPublicChannels();
@@ -83,7 +86,7 @@ public class Workspace
     }
     boolean createWorkspace() throws SQLException
     {
-        return obj.createWorkspace(name, creator, password);
+        return obj.createWorkspace(name, creator, password,accesscode);
     }
     
     void addUser(String a)
@@ -97,6 +100,18 @@ public class Workspace
             users.clear();
         GetMembers();
         return users;
+    }
+    
+    ArrayList<String> getAllPublicChannels() throws SQLException
+    {
+        ResultSet rs = obj.GetAllPublicChannels(name);
+        ArrayList<String> AllChannels = new ArrayList<>();
+        while(rs.next())
+        {
+            AllChannels.add(rs.getString("NAME"));
+        }
+        
+        return AllChannels;
     }
     
     ArrayList<String> getPrivateChannels() throws SQLException
@@ -120,5 +135,16 @@ public class Workspace
     }
 
             
+    
+    String getCreator()
+    {
+     return creator;   
+    }
+    
+    String getName()
+    {
+     return name;   
+    }
+    
     
 }
