@@ -7,7 +7,7 @@ package slack;
 
 import javax.swing.JFrame;
 import static slack.Slack.stack;
-
+import static slack.MainMenu.color;
 /**
  *
  * @author mac
@@ -19,6 +19,9 @@ public class JoinWorkspace extends javax.swing.JFrame {
      */
     public JoinWorkspace() {
         initComponents();
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
     }
 
     /**

@@ -15,7 +15,6 @@ import static slack.MainMenu.CurrentWorkspace;
 import static slack.Login.user;
 import static slack.MainMenu.wsp;
 
-
 /**
  *
  * @author saira

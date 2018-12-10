@@ -36,7 +36,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public static String CurrentWorkspace=null;
     public static Workspace wsp=null;
-    public static String color = "";
+    public static Color color;
     private Slack obj;
     public MainMenu(Slack a) {
         obj=a;
@@ -46,6 +46,9 @@ public class MainMenu extends javax.swing.JFrame {
         yellow.setVisible(false);
         orange.setVisible(false);
         green.setVisible(false);
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
     }
 
     /**
@@ -486,42 +489,50 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton6MouseClicked
     public void changeBackground(Color r){
-//        JOptionPane.showMessageDialog(null,stack.size());
-//        JFrame[] f = new JFrame[stack.size()];
-//        int i = 0;
-//        for(i = 0;i<stack.size();i++){
-//            f[i] = new JFrame();
-//        }
-//        i = 0;
-//        while(!stack.isEmpty()){
-//            f[i] = stack.pop();
-//            
-//            i += 1;
-//        }
-//        for(i = stack.size() - 1;i>=0;i++){
-//            stack.push(f[i]);
-//        }
+        //JOptionPane.showMessageDialog(null,stack.size());
+        ArrayList<JFrame> f= new ArrayList();
+        int i = 0;
+        while(!stack.empty()){
+            //JOptionPane.showMessageDialog(null, "in");
+            f.add(stack.pop());
+        }
+        JFrame p = new JFrame();
+        for(i = f.size()-1;i>=0;i++){
+            p = f.get(i);
+            p.getContentPane().setBackground(r);
+            stack.push(p);
+        }
+        
     }
     private void redMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redMouseClicked
         Color r = Color.red;
         this.getContentPane().setBackground(r);
-        //changeBackground(r);
+        color = r;
+        changeBackground(r);
     }//GEN-LAST:event_redMouseClicked
 
     private void yellowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yellowMouseClicked
         this.getContentPane().setBackground(Color.YELLOW);
+        color = Color.yellow;
+        changeBackground(color);
     }//GEN-LAST:event_yellowMouseClicked
 
     private void blueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_blueMouseClicked
         this.getContentPane().setBackground(Color.BLUE);
+        color = Color.blue;
+        changeBackground(color);
     }//GEN-LAST:event_blueMouseClicked
 
     private void greenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_greenMouseClicked
         this.getContentPane().setBackground(Color.GREEN);
+        color = Color.green;
+        changeBackground(color);
     }//GEN-LAST:event_greenMouseClicked
 
     private void orangeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orangeMouseClicked
         this.getContentPane().setBackground(Color.ORANGE);
+        color = Color.ORANGE;
+        changeBackground(color);
     }//GEN-LAST:event_orangeMouseClicked
 
     

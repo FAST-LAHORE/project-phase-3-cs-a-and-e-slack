@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import static slack.Login.user;
 import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
-
+import static slack.MainMenu.color;
 /**
  *
  * @author saira
@@ -38,6 +38,9 @@ public class PmFrame extends javax.swing.JFrame {
 //        jScrollPane1.revalidate();
 //        jScrollPane1.repaint();
         initComponents();
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
               // jTextArea1.setEditable(false);
                model = (DefaultTableModel) jTable1.getModel();
     ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);

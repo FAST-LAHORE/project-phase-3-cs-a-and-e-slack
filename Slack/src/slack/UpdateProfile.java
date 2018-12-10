@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static slack.MainMenu.color;
 
 /**
  *
@@ -27,6 +28,9 @@ public class UpdateProfile extends javax.swing.JFrame {
     public UpdateProfile() {
         initComponents();
         // GET USER DETAILS FROM DATABASE AND DISPLAY IT IN TEXT FIELDS
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
     }
     public UpdateProfile(User e){
         initComponents();
@@ -80,6 +84,11 @@ public class UpdateProfile extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -165,6 +174,7 @@ public class UpdateProfile extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void chngPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chngPwdActionPerformed
@@ -207,6 +217,10 @@ public class UpdateProfile extends javax.swing.JFrame {
         }
         this.setVisible(true);
     }//GEN-LAST:event_chngPwdMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
