@@ -270,11 +270,11 @@ public class WSpace extends javax.swing.JFrame {
         String option = (String)jComboBox2.getSelectedItem();
         
         try {
-           
+            Workspace  ws = new Workspace(CurrentWorkspace);
              if(CurrentChannel.equals(" "))
              {
                   ArrayList<String> arr =null;
-                   Workspace ws = new Workspace(CurrentWorkspace);
+                   
                  jComboBox2.removeAllItems();
                  if(option.equals("public"))
                     arr = ws.getPublicChannels();
@@ -290,7 +290,7 @@ public class WSpace extends javax.swing.JFrame {
              {  
                  stack.add(this);
                  CurrentChannel = option;
-                 ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
+                 ChannelFrame mainFrame=new ChannelFrame(user.getName(),CurrentChannel, ws.getId());
                  mainFrame.setTitle("Channel");
                 mainFrame.setLocation(400,150);
                 mainFrame.setSize(320,350);

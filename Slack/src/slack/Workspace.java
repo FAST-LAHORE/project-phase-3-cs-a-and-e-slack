@@ -23,6 +23,7 @@ public class Workspace
     private String password;
     private String creator;
     private String accesscode;
+    private int id;
     ArrayList<String> users=new ArrayList<>();
     ArrayList<String> Privatechannels=new ArrayList<>();
     ArrayList<String> Publicchannels=new ArrayList<>();
@@ -37,6 +38,7 @@ public class Workspace
         GetMembers();
        GetPrivateChannels();
        GetPublicChannels();
+      id = obj.GetWorkspaceId(name);
     }
     
     Workspace(String n) throws SQLException
@@ -47,14 +49,16 @@ public class Workspace
         {
             creator = rs.getString("creator");
             password = rs.getString("password");
+            id = rs.getInt("ID");
         }
         GetMembers();
         GetPrivateChannels();
         GetPublicChannels();
+         id = obj.GetWorkspaceId(name);
     }
     void GetMembers() throws SQLException
     {
-        ResultSet rs = obj.GetWorkspaceMembers(name);
+        ResultSet rs = obj.GetWorkspaceMembers(id);
         while(rs.next())
         {
             users.add(rs.getString("USERNAME"));
@@ -64,10 +68,10 @@ public class Workspace
     
     void GetPrivateChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "private");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "private");
         while(rs.next())
         {
-            Privatechannels.add(rs.getString("CHANNEL"));
+            Privatechannels.add(rs.getString("CHANNELNAME"));
             //channelType.add(rs.getString("Type"));
         }
         
@@ -75,10 +79,10 @@ public class Workspace
     
      void GetPublicChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "public");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "public");
         while(rs.next())
         {
-            Publicchannels.add(rs.getString("CHANNEL"));
+            Publicchannels.add(rs.getString("CHANNELNAME"));
             //channelType.add(rs.getString("Type"));
         }
         
@@ -103,11 +107,11 @@ public class Workspace
     
     ArrayList<String> getAllPublicChannels() throws SQLException
     {
-        ResultSet rs = obj.GetAllPublicChannels(name);
+        ResultSet rs = obj.GetAllPublicChannels(id);
         ArrayList<String> AllChannels = new ArrayList<>();
         while(rs.next())
         {
-            AllChannels.add(rs.getString("NAME"));
+            AllChannels.add(rs.getString("CHANNELNAME"));
         }
         
         return AllChannels;
@@ -139,5 +143,8 @@ public class Workspace
      return name;   
     }
     
-    
+    int getId()
+    {
+        return id;
+    }
 }

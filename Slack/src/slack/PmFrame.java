@@ -29,14 +29,14 @@ public class PmFrame extends javax.swing.JFrame {
     private String user;
     private String selected;
     private Slack obj;
-    DirectMessage DC;
-    DefaultTableModel model;
+    private DirectMessage DC;
+    private DefaultTableModel model;
+    private boolean typed = false;
     public PmFrame(String p1, String p2) {
         user = p1;
         selected = p2;
        DC = new DirectMessage(user, selected);
-//        jScrollPane1.revalidate();
-//        jScrollPane1.repaint();
+//       
         initComponents();
               // jTextArea1.setEditable(false);
                model = (DefaultTableModel) jTable1.getModel();
@@ -46,9 +46,7 @@ exec.scheduleAtFixedRate(new Runnable() {
                try {
                    // code to execute repeatedly
                    LoadMessages();
-                   //int len = jTextArea1.getDocument().getLength();
-                   // jTextArea1.setCaretPosition(len);
-                   // jTextArea1.requestFocusInWindow();
+                  
                } catch (SQLException ex) {
                    Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -148,7 +146,10 @@ exec.scheduleAtFixedRate(new Runnable() {
 
    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String message = jTextField1.getText();
+        String message = jTextField1.getText();  
+      if(typed && !message.equals(""))
+      {
+        typed = false;
         jTextField1.setText("Type Message");
         try {
             DC.AddMessage(message);
@@ -156,6 +157,7 @@ exec.scheduleAtFixedRate(new Runnable() {
         } catch (SQLException ex) {
             Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+      }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -165,8 +167,6 @@ exec.scheduleAtFixedRate(new Runnable() {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jLabel1.setText(selected);
         
-       
-      //  jTextArea1.setEditable(false);
         try {
             LoadMessages();
         } catch (SQLException ex) {
@@ -175,7 +175,8 @@ exec.scheduleAtFixedRate(new Runnable() {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
-          jTextField1.setText(" ");
+          jTextField1.setText("");
+          typed = true;
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -193,16 +194,31 @@ exec.scheduleAtFixedRate(new Runnable() {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int selectedrow = jTable1.getSelectedRow();
-        String selected = (String)jTable1.getValueAt(selectedrow, 0);
+        String selectedS = (String)jTable1.getValueAt(selectedrow, 0);  //the message
         if(selectedrow%2==0)
         {
             
         }
         else
         {    
-            String userS = (String)jTable1.getValueAt(selectedrow-1, 0);
-            Thread t = new Thread(selected, userS);
-            threadFrame mainFrame=new threadFrame(t);
+            ArrayList<Message> Chat = new ArrayList<>();
+            
+            try {
+              Chat  =DC.GetChat();
+            } catch (SQLException ex) {
+                Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Message a;
+            int index = (selectedrow-1)/2;
+            a = Chat.get(index);
+           // int id = a.getId();
+           // String userS = (String)jTable1.getValueAt(selectedrow-1, 0);    //the sender
+            
+           
+                System.out.println(a.getMessage());
+                
+          Thread t = new Thread(a, "Direct");
+          threadFrame mainFrame=new threadFrame(t);
           mainFrame.setTitle("Message");
           mainFrame.setLocation(400,150);
           mainFrame.setSize(320,350);
@@ -215,33 +231,21 @@ exec.scheduleAtFixedRate(new Runnable() {
     
     private void LoadMessages() throws SQLException
     {
-        //jTextArea1.setText(" ");
-         while(model.getRowCount() !=0)
-                 model.removeRow(0);
-        ArrayList<String> Chat=DC.GetChat();
-        String a;
-       // String prev;
-       // int count=1;
-       // a = Chat.remove(0);
-       // prev = a;
-       // model.insertRow(model.getRowCount(),new Object[]{a} );
-        while(!Chat.isEmpty())
+          jTable1.setModel(new DefaultTableModel(null, new Object[]{""}));        
+        
+        
+        //model.getDataVector().removeAllElements();
+         //revalidate();
+        ArrayList<Message> Chat=DC.GetChat();
+        Message a;
+       DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        for(int i=0; i<Chat.size(); i++)
         {
-            a = Chat.remove(0);
-         //   if(count%2 ==0)
-          //  {    if(prev.equals(a))
-          //          count++;
-            //   else
-           //     {   prev = a;
-            //        model.insertRow(model.getRowCount(),new Object[]{a} );
-           //         count++;
-           //     }
-            //}
-           // else
-            //{ 
-                model.insertRow(model.getRowCount(),new Object[]{a} );
-              //  count++;
-            //}
+            a = Chat.get(i);
+         
+                model1.insertRow(model1.getRowCount(),new Object[]{a.getSender()} );
+                model1.insertRow(model1.getRowCount(),new Object[]{a.getMessage()} );
+            
         }
     }
     /**

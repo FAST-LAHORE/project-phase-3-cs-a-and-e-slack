@@ -26,6 +26,7 @@ public class AddChannelFrame extends javax.swing.JFrame {
      */
     ArrayList<String> arr =new ArrayList<>();
     DefaultTableModel model;
+    int WorkspaceID;
     public AddChannelFrame() {
         initComponents();
         model = (DefaultTableModel) jTable1.getModel();
@@ -169,6 +170,7 @@ public class AddChannelFrame extends javax.swing.JFrame {
         // jComboBox1.removeAllItems();
         try {
             Workspace ws = new Workspace(CurrentWorkspace);
+            WorkspaceID = ws.getId();
             arr = ws.getAllPublicChannels();
         } catch (SQLException ex) {
             Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,18 +226,22 @@ public class AddChannelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int selectedrow = jTable1.getSelectedRow();
-        String selected = (String)jTable1.getValueAt(selectedrow, 0);
-        //System.out.println(selected);
-         CurrentChannel = selected;
-          ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
-          mainFrame.setTitle("Channel");
-          mainFrame.setLocation(400,150);
-          mainFrame.setSize(320,350);
-          mainFrame.setVisible(true);
+        try {
+            int selectedrow = jTable1.getSelectedRow();
+            String selected = (String)jTable1.getValueAt(selectedrow, 0);
+            //System.out.println(selected);
+            CurrentChannel = selected;
+            ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel, WorkspaceID);
+            mainFrame.setTitle("Channel");
+            mainFrame.setLocation(400,150);
+            mainFrame.setSize(320,350);
+            mainFrame.setVisible(true);
             
-          this.setVisible(false);
-          this.dispose();
+            this.setVisible(false);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
