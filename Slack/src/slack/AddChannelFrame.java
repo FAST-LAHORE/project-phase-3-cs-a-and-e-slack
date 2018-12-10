@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+import static slack.MainMenu.wsp;
+import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
 
 /**
@@ -26,6 +30,7 @@ public class AddChannelFrame extends javax.swing.JFrame {
      */
     ArrayList<String> arr =new ArrayList<>();
     DefaultTableModel model;
+    int WorkspaceID;
     public AddChannelFrame() {
         initComponents();
         model = (DefaultTableModel) jTable1.getModel();
@@ -47,6 +52,8 @@ public class AddChannelFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -86,6 +93,11 @@ public class AddChannelFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Create");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("cancel");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +129,15 @@ public class AddChannelFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,11 +157,20 @@ public class AddChannelFrame extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(371, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jLabel1)
@@ -151,7 +181,7 @@ public class AddChannelFrame extends javax.swing.JFrame {
                     .addComponent(jButton3))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,6 +199,7 @@ public class AddChannelFrame extends javax.swing.JFrame {
         // jComboBox1.removeAllItems();
         try {
             Workspace ws = new Workspace(CurrentWorkspace);
+            WorkspaceID = ws.getId();
             arr = ws.getAllPublicChannels();
         } catch (SQLException ex) {
             Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,19 +255,88 @@ public class AddChannelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int selectedrow = jTable1.getSelectedRow();
-        String selected = (String)jTable1.getValueAt(selectedrow, 0);
-        //System.out.println(selected);
-         CurrentChannel = selected;
-          ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
-          mainFrame.setTitle("Channel");
-          mainFrame.setLocation(400,150);
-          mainFrame.setSize(320,350);
-          mainFrame.setVisible(true);
+        try {
+            int selectedrow = jTable1.getSelectedRow();
+            String selected = (String)jTable1.getValueAt(selectedrow, 0);
+            //System.out.println(selected);
+            CurrentChannel = selected;
+            ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel, WorkspaceID);
+            mainFrame.setTitle("Channel");
+            mainFrame.setLocation(400,150);
+            mainFrame.setSize(320,350);
+            mainFrame.setVisible(true);
             
-          this.setVisible(false);
-          this.dispose();
+            this.setVisible(false);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        Object[] options1 = {"Private Channel",
+                     "Public Channel",
+                     "Quit"};
+        boolean temp=false;
+        
+        String a=JOptionPane.showInputDialog(rootPane,"Enter Channel name");
+        
+        int result=JOptionPane.showOptionDialog(null,
+                 "Do you want the Channel to be Private or Public",
+                 "Choose channel type",
+                 JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,null,options1,null);
+        
+        if(result==JOptionPane.YES_OPTION)
+        {
+            try {
+                temp=wsp.addprivatechannel(a,user.getName(),CurrentWorkspace);
+            } catch (SQLException ex) {
+                Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(temp==false)
+            {
+                JOptionPane.showMessageDialog(null, "Cannot add Private channel ");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Private Channel added ");
+            }
+            
+        }
+        else if(result==JOptionPane.NO_OPTION)
+        {
+            try {
+                temp=wsp.addpublicchannel(a, user.getName(), CurrentWorkspace);
+            } catch (SQLException ex) {
+                Logger.getLogger(AddChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(temp==false)
+            {
+                JOptionPane.showMessageDialog(null, "Cannot add Public channel ");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Public Channel added ");
+
+            }
+        }
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        if(!stack.empty())
+        {
+            this.dispose();
+            JFrame a=stack.pop();
+            a.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +377,8 @@ public class AddChannelFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

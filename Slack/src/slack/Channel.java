@@ -20,33 +20,41 @@ public class Channel extends Chats
     private String type;
     private String user;
     private ArrayList<String> Chat = new ArrayList<>();
-    Channel(String u, String n)
+    
+    
+
+    private int id;
+    private ArrayList<Message> Chats = new ArrayList<>();
+    
+    Channel(String u, String n, int Wid) throws SQLException
     {
         user = u;
         name = n;
+        GetChannelId();
     }
     
-     public ArrayList<String> GetChat() throws SQLException
+    public void GetChannelId() throws SQLException
     {
-        ResultSet rs = obj.GetChannelMessages( name, CurrentWorkspace);
+        Workspace ws = new Workspace(CurrentWorkspace);
+        id = obj.GetChannelId(name, ws.getId());
+    }
+     public ArrayList<Message> GetChat() throws SQLException
+    {
+        Workspace ws = new Workspace(CurrentWorkspace);
+        ResultSet rs = obj.GetChannelMessages( name, ws.getId());
         //String message=null;
+        Chats.clear();
         while(rs.next())
         {
-           Chat.add(rs.getString("sender"));
-           Chat.add(rs.getString("message"));
+           Chats.add(new Message(rs.getInt("ID"),rs.getString("messages"),rs.getString("sender")));
         }
-//        if(Chat.isEmpty())
-//            Chat.add("This is the very begining of your direct messages with " + person);
-        return Chat;    
+        return Chats; 
+        
     }
      
     public void AddMessage(String message) throws SQLException
     {
-        obj.AddChannelMessage(message ,user, name, CurrentWorkspace );
+        obj.AddChannelMessage(message ,user, id);
     }
     
-    public void Addfile() throws SQLException
-    {
-        
-    }
 }

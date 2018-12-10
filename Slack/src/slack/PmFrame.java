@@ -5,6 +5,7 @@
  */
 package slack;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -12,11 +13,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import static slack.Login.user;
+import static slack.MainMenu.CurrentWorkspace;
+import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
 import static slack.MainMenu.color;
@@ -29,14 +33,14 @@ public class PmFrame extends javax.swing.JFrame {
     private String user;
     private String selected;
     private Slack obj;
-    DirectMessage DC;
-    DefaultTableModel model;
+    private DirectMessage DC;
+    private DefaultTableModel model;
+    private boolean typed = false;
     public PmFrame(String p1, String p2) {
         user = p1;
         selected = p2;
        DC = new DirectMessage(user, selected);
-//        jScrollPane1.revalidate();
-//        jScrollPane1.repaint();
+//       
         initComponents();
         if(color != null){
             this.getContentPane().setBackground(color);
@@ -49,9 +53,7 @@ exec.scheduleAtFixedRate(new Runnable() {
                try {
                    // code to execute repeatedly
                    LoadMessages();
-                   //int len = jTextArea1.getDocument().getLength();
-                   // jTextArea1.setCaretPosition(len);
-                   // jTextArea1.requestFocusInWindow();
+                  
                } catch (SQLException ex) {
                    Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -74,6 +76,9 @@ exec.scheduleAtFixedRate(new Runnable() {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -85,7 +90,7 @@ exec.scheduleAtFixedRate(new Runnable() {
 
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(100, 6, 100, 15);
+        jLabel1.setBounds(100, 6, 100, 14);
 
         jTextField1.setText("Type message");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -108,7 +113,7 @@ exec.scheduleAtFixedRate(new Runnable() {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(217, 240, 59, 25);
+        jButton1.setBounds(217, 240, 57, 23);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -118,7 +123,7 @@ exec.scheduleAtFixedRate(new Runnable() {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(0, 0, 70, 18);
+        jButton2.setBounds(0, 0, 70, 19);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,12 +151,30 @@ exec.scheduleAtFixedRate(new Runnable() {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(30, 30, 240, 190);
 
+        jButton3.setText("add file");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(220, 270, 67, 23);
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(220, 300, 70, 0);
+
+        jLabel3.setText("  ");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(220, 300, 70, 14);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String message = jTextField1.getText();
+        String message = jTextField1.getText();  
+      if(typed && !message.equals(""))
+      {
+        typed = false;
         jTextField1.setText("Type Message");
         try {
             DC.AddMessage(message);
@@ -159,6 +182,7 @@ exec.scheduleAtFixedRate(new Runnable() {
         } catch (SQLException ex) {
             Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+      }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -168,8 +192,6 @@ exec.scheduleAtFixedRate(new Runnable() {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jLabel1.setText(selected);
         
-       
-      //  jTextArea1.setEditable(false);
         try {
             LoadMessages();
         } catch (SQLException ex) {
@@ -178,7 +200,8 @@ exec.scheduleAtFixedRate(new Runnable() {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
-          jTextField1.setText(" ");
+          jTextField1.setText("");
+          typed = true;
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -196,16 +219,31 @@ exec.scheduleAtFixedRate(new Runnable() {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int selectedrow = jTable1.getSelectedRow();
-        String selected = (String)jTable1.getValueAt(selectedrow, 0);
+        String selectedS = (String)jTable1.getValueAt(selectedrow, 0);  //the message
         if(selectedrow%2==0)
         {
             
         }
         else
         {    
-            String userS = (String)jTable1.getValueAt(selectedrow-1, 0);
-            Thread t = new Thread(selected, userS);
-            threadFrame mainFrame=new threadFrame(t);
+            ArrayList<Message> Chat = new ArrayList<>();
+            
+            try {
+              Chat  =DC.GetChat();
+            } catch (SQLException ex) {
+                Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Message a;
+            int index = (selectedrow-1)/2;
+            a = Chat.get(index);
+           // int id = a.getId();
+           // String userS = (String)jTable1.getValueAt(selectedrow-1, 0);    //the sender
+            
+           
+                System.out.println(a.getMessage());
+                
+          Thread t = new Thread(a, "Direct");
+          threadFrame mainFrame=new threadFrame(t);
           mainFrame.setTitle("Message");
           mainFrame.setLocation(400,150);
           mainFrame.setSize(320,350);
@@ -215,36 +253,46 @@ exec.scheduleAtFixedRate(new Runnable() {
           this.dispose();
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String filename=null;
+        
+        JFileChooser chooser= new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f=chooser.getSelectedFile();
+        filename= f.getAbsolutePath();
+      
+            try
+            {
+              wsp.addfile(slack.Login.user.getName(),filename, CurrentWorkspace);
+            } catch (SQLException ex)
+            {
+               Logger.getLogger(ChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        jLabel3.setText("File sent");
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     private void LoadMessages() throws SQLException
     {
-        //jTextArea1.setText(" ");
-         while(model.getRowCount() !=0)
-                 model.removeRow(0);
-        ArrayList<String> Chat=DC.GetChat();
-        String a;
-       // String prev;
-       // int count=1;
-       // a = Chat.remove(0);
-       // prev = a;
-       // model.insertRow(model.getRowCount(),new Object[]{a} );
-        while(!Chat.isEmpty())
+          jTable1.setModel(new DefaultTableModel(null, new Object[]{""}));        
+        
+        
+        //model.getDataVector().removeAllElements();
+         //revalidate();
+        ArrayList<Message> Chat=DC.GetChat();
+        Message a;
+       DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        for(int i=0; i<Chat.size(); i++)
         {
-            a = Chat.remove(0);
-         //   if(count%2 ==0)
-          //  {    if(prev.equals(a))
-          //          count++;
-            //   else
-           //     {   prev = a;
-            //        model.insertRow(model.getRowCount(),new Object[]{a} );
-           //         count++;
-           //     }
-            //}
-           // else
-            //{ 
-                model.insertRow(model.getRowCount(),new Object[]{a} );
-              //  count++;
-            //}
+            a = Chat.get(i);
+         
+                model1.insertRow(model1.getRowCount(),new Object[]{a.getSender()} );
+                model1.insertRow(model1.getRowCount(),new Object[]{a.getMessage()} );
+            
         }
     }
     /**
@@ -285,7 +333,10 @@ exec.scheduleAtFixedRate(new Runnable() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

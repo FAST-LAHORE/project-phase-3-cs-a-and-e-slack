@@ -23,6 +23,7 @@ public class Workspace
     private String password;
     private String creator;
     private String accesscode;
+    private int id;
     ArrayList<String> users=new ArrayList<>();
     ArrayList<String> Privatechannels=new ArrayList<>();
     ArrayList<String> Publicchannels=new ArrayList<>();
@@ -35,27 +36,33 @@ public class Workspace
         password=p;
         creator=c;
         accesscode=acode;
+        Filepaths=new ArrayList<>();
         GetMembers();
        GetPrivateChannels();
        GetPublicChannels();
+      id = obj.GetWorkspaceId(name);
     }
     
     Workspace(String n) throws SQLException
     {
+        Filepaths=new ArrayList<>();
+
         name =n;
         ResultSet rs = obj.GetWorkspaceDetails(n);
         if(rs.next())
         {
             creator = rs.getString("creator");
             password = rs.getString("password");
+            id = rs.getInt("ID");
         }
         GetMembers();
         GetPrivateChannels();
         GetPublicChannels();
+         id = obj.GetWorkspaceId(name);
     }
     void GetMembers() throws SQLException
     {
-        ResultSet rs = obj.GetWorkspaceMembers(name);
+        ResultSet rs = obj.GetWorkspaceMembers(id);
         while(rs.next())
         {
             users.add(rs.getString("USERNAME"));
@@ -65,10 +72,10 @@ public class Workspace
     
     void GetPrivateChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "private");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "private");
         while(rs.next())
         {
-            Privatechannels.add(rs.getString("CHANNEL"));
+            Privatechannels.add(rs.getString("CHANNELNAME"));
             //channelType.add(rs.getString("Type"));
         }
         
@@ -76,10 +83,10 @@ public class Workspace
     
      void GetPublicChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(name, user.getName(), "public");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "public");
         while(rs.next())
         {
-            Publicchannels.add(rs.getString("CHANNEL"));
+            Publicchannels.add(rs.getString("CHANNELNAME"));
             //channelType.add(rs.getString("Type"));
         }
         
@@ -88,10 +95,20 @@ public class Workspace
     {
         return obj.createWorkspace(name, creator, password,accesscode);
     }
-    
-    void addUser(String a)
+    ArrayList<String> getinvites(String e) throws SQLException
     {
-        users.add(a);
+        ArrayList<String> i=new ArrayList<>();
+        ResultSet rs=obj.getinvites(e);
+        while(rs.next())
+        {
+            i.add(rs.getString("WSNAME"));
+        }
+        return i;
+    }
+    boolean addUser(String e,String w,String p) throws SQLException
+    {
+        users.add(e);
+        return obj.addusertoworkspace(e,w,p);
     }
     
     ArrayList<String> getUsers() throws SQLException
@@ -104,11 +121,11 @@ public class Workspace
     
     ArrayList<String> getAllPublicChannels() throws SQLException
     {
-        ResultSet rs = obj.GetAllPublicChannels(name);
+        ResultSet rs = obj.GetAllPublicChannels(id);
         ArrayList<String> AllChannels = new ArrayList<>();
         while(rs.next())
         {
-            AllChannels.add(rs.getString("NAME"));
+            AllChannels.add(rs.getString("CHANNELNAME"));
         }
         
         return AllChannels;
@@ -133,13 +150,37 @@ public class Workspace
     {
         return obj.addfile(e, p, w);
     }
+
     public ArrayList getNotif() throws SQLException{
         
         ArrayList<String> a = obj.getNotif(name);
         return a;
     }
-            
+           
     
+    ArrayList<String> getfiles(String e, String w) throws SQLException
+    {
+        ResultSet rs=obj.getuserfiles(e, w);
+        while(rs.next())
+        {
+            this.Filepaths.add(rs.getString("FILEPATH"));
+        }
+        
+        return this.Filepaths;
+    }
+    
+    public boolean addprivatechannel(String pubc,String e,String w) throws SQLException
+    {
+        Privatechannels.add(pubc);
+        return obj.addtomychannels(pubc, w, e, 0);
+    }
+    
+    public boolean addpublicchannel(String privc,String e,String w) throws SQLException
+    {
+        Publicchannels.add(privc);
+        return obj.addtomychannels(privc, w, e, 1);
+    }
+            
     String getCreator()
     {
      return creator;   
@@ -150,5 +191,10 @@ public class Workspace
      return name;   
     }
     
-    
+
+    int getId()
+    {
+        return id;
+    }
+
 }

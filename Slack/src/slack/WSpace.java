@@ -121,6 +121,11 @@ public class WSpace extends javax.swing.JFrame {
         jLabel4.setBounds(0, 180, 80, 16);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Private" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox2);
         jComboBox2.setBounds(0, 200, 80, 80);
 
@@ -154,6 +159,9 @@ public class WSpace extends javax.swing.JFrame {
 
         jLabel6.setText("jLabel6");
         getContentPane().add(jLabel6);
+
+        jLabel6.setBounds(130, 0, 34, 14);
+
         jLabel6.setBounds(130, 0, 41, 16);
 
         jButton5.setText("My files");
@@ -163,6 +171,8 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
+        jButton5.setBounds(220, 190, 100, 40);
+
         jButton5.setBounds(270, 0, 66, 60);
 
         jButton7.setText("Invite User");
@@ -172,6 +182,8 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
+
+        jButton7.setBounds(215, 240, 110, 23);
         jButton7.setBounds(0, 320, 86, 28);
 
         jButton6.setText("Add Channel");
@@ -181,7 +193,11 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton6);
+
+        jButton6.setBounds(217, 270, 110, 23);
+
         jButton6.setBounds(217, 270, 110, 28);
+
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -208,10 +224,7 @@ public class WSpace extends javax.swing.JFrame {
         try {
             ArrayList<String> arr =null;
             Workspace ws=null;
-            String current = CurrentWorkspace;
-            
-            ws = new Workspace(current);
-            arr = ws.getUsers();
+            arr = wsp.getUsers();
              
             for (int i = 0; i < arr.size(); i++)
             {
@@ -297,17 +310,20 @@ public class WSpace extends javax.swing.JFrame {
         String option = (String)jComboBox2.getSelectedItem();
         
         try {
-           
+            Workspace  ws = new Workspace(CurrentWorkspace);
              if(CurrentChannel.equals(" "))
              {
                   ArrayList<String> arr =null;
-                   Workspace ws = new Workspace(CurrentWorkspace);
+
+
+                   
+
                  jComboBox2.removeAllItems();
                  if(option.equals("public"))
-                    arr = ws.getPublicChannels();
+                    arr = wsp.getPublicChannels();
                    
                  else if(option.equals("private"))
-                    arr = ws.getPrivateChannels();
+                    arr = wsp.getPrivateChannels();
                  
                  for (int i = 0; i < arr.size(); i++) 
                         jComboBox2.addItem(arr.get(i));     
@@ -317,7 +333,7 @@ public class WSpace extends javax.swing.JFrame {
              {  
                  stack.add(this);
                  CurrentChannel = option;
-                 ChannelFrame mainFrame=new ChannelFrame(user.getName(), CurrentChannel);
+                 ChannelFrame mainFrame=new ChannelFrame(user.getName(),CurrentChannel, ws.getId());
                  mainFrame.setTitle("Channel");
                 mainFrame.setLocation(400,150);
                 mainFrame.setSize(320,350);
@@ -428,6 +444,11 @@ public class WSpace extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
         ArrayList<String> notif = new ArrayList();

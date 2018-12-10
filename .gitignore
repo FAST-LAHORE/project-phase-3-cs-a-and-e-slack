@@ -2,3 +2,5 @@
 /Slack/build/
 /lab13/nbproject/private/
 Slack/src/slack/Slack.java
+*.java
+Slack/src/slack/Slack.java

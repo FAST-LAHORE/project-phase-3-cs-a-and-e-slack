@@ -5,6 +5,8 @@
  */
 package slack;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author mac
@@ -12,8 +14,8 @@ package slack;
 public class PublicChannel extends Channel 
 {
     
-    public PublicChannel(String u, String n) {
-        super(u, n);
+    public PublicChannel(String u, String n, int w) throws SQLException {
+        super(u, n, w);
     }
     
 }
