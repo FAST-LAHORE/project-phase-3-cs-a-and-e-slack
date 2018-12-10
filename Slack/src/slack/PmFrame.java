@@ -5,6 +5,7 @@
  */
 package slack;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -12,11 +13,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import static slack.Login.user;
+import static slack.MainMenu.CurrentWorkspace;
+import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
 
@@ -71,6 +75,9 @@ exec.scheduleAtFixedRate(new Runnable() {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -82,7 +89,7 @@ exec.scheduleAtFixedRate(new Runnable() {
 
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(100, 6, 100, 15);
+        jLabel1.setBounds(100, 6, 100, 14);
 
         jTextField1.setText("Type message");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,7 +112,7 @@ exec.scheduleAtFixedRate(new Runnable() {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(217, 240, 59, 25);
+        jButton1.setBounds(217, 240, 57, 23);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -115,7 +122,7 @@ exec.scheduleAtFixedRate(new Runnable() {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(0, 0, 70, 18);
+        jButton2.setBounds(0, 0, 70, 19);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -142,6 +149,21 @@ exec.scheduleAtFixedRate(new Runnable() {
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(30, 30, 240, 190);
+
+        jButton3.setText("add file");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(220, 270, 67, 23);
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(220, 300, 70, 0);
+
+        jLabel3.setText("  ");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(220, 300, 70, 14);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -212,6 +234,28 @@ exec.scheduleAtFixedRate(new Runnable() {
           this.dispose();
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String filename=null;
+        
+        JFileChooser chooser= new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f=chooser.getSelectedFile();
+        filename= f.getAbsolutePath();
+      
+            try
+            {
+              wsp.addfile(slack.Login.user.getName(),filename, CurrentWorkspace);
+            } catch (SQLException ex)
+            {
+               Logger.getLogger(ChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        jLabel3.setText("File sent");
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     private void LoadMessages() throws SQLException
     {
@@ -282,7 +326,10 @@ exec.scheduleAtFixedRate(new Runnable() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

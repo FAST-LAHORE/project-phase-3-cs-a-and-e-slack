@@ -35,6 +35,7 @@ public class Workspace
         password=p;
         creator=c;
         accesscode=acode;
+        Filepaths=new ArrayList<>();
         GetMembers();
        GetPrivateChannels();
        GetPublicChannels();
@@ -42,6 +43,8 @@ public class Workspace
     
     Workspace(String n) throws SQLException
     {
+        Filepaths=new ArrayList<>();
+
         name =n;
         ResultSet rs = obj.GetWorkspaceDetails(n);
         if(rs.next())
@@ -88,10 +91,20 @@ public class Workspace
     {
         return obj.createWorkspace(name, creator, password,accesscode);
     }
-    
-    void addUser(String a)
+    ArrayList<String> getinvites(String e) throws SQLException
     {
-        users.add(a);
+        ArrayList<String> i=new ArrayList<>();
+        ResultSet rs=obj.getinvites(e);
+        while(rs.next())
+        {
+            i.add(rs.getString("WSNAME"));
+        }
+        return i;
+    }
+    boolean addUser(String e,String w,String p) throws SQLException
+    {
+        users.add(e);
+        return obj.addusertoworkspace(e,w,p);
     }
     
     ArrayList<String> getUsers() throws SQLException
@@ -133,9 +146,19 @@ public class Workspace
     {
         return obj.addfile(e, p, w);
     }
+    
+    ArrayList<String> getfiles(String e, String w) throws SQLException
+    {
+        ResultSet rs=obj.getuserfiles(e, w);
+        while(rs.next())
+        {
+            this.Filepaths.add(rs.getString("FILEPATH"));
+        }
+        
+        return this.Filepaths;
+    }
 
             
-    
     String getCreator()
     {
      return creator;   

@@ -66,9 +66,6 @@ public class WSpace extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-
-        jButton5 = new javax.swing.JButton();
-
         jLabel6 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -109,10 +106,6 @@ public class WSpace extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(0, 140, 80, 29);
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(110, 0, 140, 20);
-
-        jButton1.setBounds(110, 110, 97, 29);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Channel Chat");
@@ -152,6 +145,10 @@ public class WSpace extends javax.swing.JFrame {
         getContentPane().add(jButton4);
         jButton4.setBounds(0, 280, 80, 30);
 
+        jLabel6.setText("jLabel6");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(130, 0, 34, 14);
+
         jButton5.setText("My files");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,17 +156,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
-        jButton5.setBounds(260, 40, 69, 50);
-        jButton4.setBounds(200, 190, 77, 29);
-
-        jLabel6.setText("jLabel6");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(130, 0, 45, 16);
-
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
-        jButton5.setBorder(null);
-        getContentPane().add(jButton5);
-        jButton5.setBounds(270, 0, 66, 60);
+        jButton5.setBounds(210, 190, 110, 40);
 
         jButton7.setText("Invite User");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +165,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
-        jButton7.setBounds(10, 260, 111, 29);
+        jButton7.setBounds(215, 240, 110, 23);
 
         jButton6.setText("Add Channel");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +174,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton6);
-        jButton6.setBounds(217, 270, 110, 29);
+        jButton6.setBounds(217, 270, 110, 23);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel3);

@@ -5,7 +5,14 @@
  */
 package slack;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import static slack.Login.user;
+import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
 
 /**
@@ -40,8 +47,18 @@ public class JoinWorkspace extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox1);
         jComboBox1.setBounds(70, 90, 160, 20);
 
@@ -53,12 +70,12 @@ public class JoinWorkspace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(80, 130, 60, 20);
+        jButton1.setBounds(90, 130, 60, 20);
 
         jButton2.setText("Reject");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(jButton2);
-        jButton2.setBounds(160, 130, 33, 17);
+        jButton2.setBounds(160, 130, 60, 20);
 
         jTextField1.setText("Enter Access Code");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,9 +103,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(0, 0, 40, 17);
-
-        jButton4.setBounds(10, 10, 40, 16);
+        jButton4.setBounds(10, 10, 40, 17);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
         jButton5.setBorder(null);
@@ -125,7 +140,55 @@ public class JoinWorkspace extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        boolean check=false;
+        String workspacename=(String)jComboBox1.getSelectedItem();
+        String pass=null;
+        while(pass==null)
+         {
+             pass=JOptionPane.showInputDialog(rootPane, "Create a password for this workspace");
+             if("".equals(pass))
+                 pass=null;
+         }
+        
+        try {
+                 check=wsp.addUser(user.getName(),workspacename,pass);
+        } catch (SQLException ex) {
+            Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(check=true)
+        {
+            JOptionPane.showConfirmDialog(rootPane, "Workspace added");
+        }
+        else
+        {
+            JOptionPane.showConfirmDialog(rootPane, "Cannot Add Workspace");
+
+        }
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+        
+        ArrayList<String> arr =new ArrayList<> ();
+        
+        try {
+            arr=wsp.getinvites(user.getName());
+        } catch (SQLException ex) {
+            Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int i = 0; i < arr.size(); i++) 
+            {
+            jComboBox1.addItem(arr.get(i));
+            }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

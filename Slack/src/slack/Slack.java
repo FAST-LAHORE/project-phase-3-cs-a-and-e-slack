@@ -97,7 +97,14 @@ public class Slack {
          }
        return false;
     }
-    
+    ResultSet getinvites(String e) throws SQLException
+    {
+        String q="Select WSNAME FROM HARIS.INVITES WHERE EMAIL=?";
+        PreparedStatement pss=conn.prepareStatement(q);
+        pss.setString(1, e);
+        ResultSet x=pss.executeQuery();
+        return x;
+    }
     ArrayList<String> myWorkspace(String name) throws SQLException
     {
         ArrayList<String> arr=new ArrayList<>();
@@ -215,7 +222,7 @@ public class Slack {
     
     ResultSet getuserfiles(String e, String w) throws SQLException
     {
-        String q = "SELECT FILEPATH FROM HARIS.USERFILES WHERE EMAIL =? AND WORKSPACE=?";
+        String q = "SELECT FILEPATH FROM HARIS.USERFILES WHERE EMAIL =? AND WORKSPACENAME=?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1, e);
         ps.setString(2, w);
@@ -251,6 +258,29 @@ public class Slack {
         
         return id;
         
+    }
+    
+    boolean addusertoworkspace(String e, String w,String p) throws SQLException
+    {
+        String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1,w);
+        ResultSet rs=ps.executeQuery();
+        
+        int id=0;
+        if(rs.next())
+        {
+            id=rs.getInt("ID");
+        }
+        
+        String abc="INSERT INTO HARIS.MYWORKSAPCES (USERNAME, \"TYPE\", ID,PASSWORD)" +"VALUES (?, 0, ?,?)";
+        PreparedStatement in=conn.prepareStatement(abc);
+        in.setString(1,e);
+        in.setInt(2, id);
+        in.setString(3,p);
+        
+        in.executeUpdate();
+        return true;
     }
     
     
