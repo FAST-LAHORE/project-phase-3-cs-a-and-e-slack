@@ -91,7 +91,7 @@ public class Slack {
     boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
        
-        String query="INSERT INTO HARIS.WORKSPACES (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
+        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         ps.setString(1, wname);
         ps.setString(2, creator);
@@ -102,7 +102,7 @@ public class Slack {
         int tr= ps.executeUpdate();
          if(tr>0) 
          {
-        String q="Select ID FROM HARIS.WORKSPACES WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
+        String q="Select ID FROM HARIS.WORKSPACE WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
         PreparedStatement pss=conn.prepareStatement(q);
         pss.setString(1, wname);
         pss.setString(2, creator);
@@ -136,7 +136,7 @@ public class Slack {
         
         while(x.next())
         {
-            String q2="Select NAME FROM HARIS.WORKSPACES WHERE ID=? ";
+            String q2="Select NAME FROM HARIS.WORKSPACE WHERE ID=? ";
             PreparedStatement ps2=conn.prepareStatement(q2);
             ps2.setInt(1, x.getInt(1));
             
@@ -157,7 +157,7 @@ public class Slack {
     
     ResultSet GetWorkspaceDetails(String n) throws SQLException
     {
-        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();
@@ -209,6 +209,7 @@ public class Slack {
         ps.executeUpdate();
     }
 
+     
     public void AddChannelMessage(String m, String u, String c,  String w) throws SQLException
     {
         String q = "INSERT INTO HARIS.CHANNELMESSAGES (MESSAGE, SENDER,CHANNEL,WORKSPACE )" + "VALUES(?,?,?,?)";
@@ -266,7 +267,7 @@ public class Slack {
     
     int IDbyName(String n) throws SQLException
     {
-        String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();
@@ -279,7 +280,21 @@ public class Slack {
         return id;
         
     }
-    
+    public ArrayList getNotif(String name) throws SQLException{
+        String q = "SELECT DESCRIPTION FROM NOTIFICATIONS WHERE WORKSPACE ='" + name+"'";
+        PreparedStatement ps = conn.prepareStatement(q);
+        //ps.setString(1, name);
+        System.out.println(q);
+        ArrayList a = new ArrayList();
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            a.add(rs.getString("DESCRIPTION"));
+        }
+        for(int i = 0;i<a.size();i++){
+            System.out.println(a.get(i));
+        }
+        return a;
+    }
     
     
     /*NamebyID(String n) throws SQLException
