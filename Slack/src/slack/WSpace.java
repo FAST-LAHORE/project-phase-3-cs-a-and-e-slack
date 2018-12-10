@@ -5,6 +5,8 @@
  */
 package slack;
 
+import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,7 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+
+import static slack.Slack.obj;
+
 import static slack.MainMenu.wsp;
+
 import static slack.Slack.stack;
 import static slack.Slack.obj;
 import java.util.Properties;
@@ -24,6 +30,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JLabel;
 
 /**
  *
@@ -67,6 +74,7 @@ public class WSpace extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
 
@@ -86,11 +94,12 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(70, 80, 170, 27);
+        jComboBox1.setBounds(0, 60, 80, 80);
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Private Chat");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(120, 60, 100, 16);
+        jLabel2.setBounds(0, 40, 80, 16);
 
         jButton1.setText("Open");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -100,15 +109,17 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(110, 110, 97, 29);
+        jButton1.setBounds(0, 140, 80, 29);
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Channel Chat");
+        jLabel4.setAlignmentY(0.0F);
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(110, 160, 100, 16);
+        jLabel4.setBounds(0, 180, 80, 16);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Private" }));
         getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(20, 190, 170, 27);
+        jComboBox2.setBounds(0, 200, 80, 80);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/back-button.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -136,14 +147,18 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(200, 190, 77, 29);
+        jButton4.setBounds(0, 280, 80, 30);
 
         jLabel6.setText("jLabel6");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(130, 0, 45, 16);
+        jLabel6.setBounds(130, 0, 41, 16);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/icons8-refresh-50.png"))); // NOI18N
-        jButton5.setBorder(null);
+        jButton5.setText("My files");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5);
         jButton5.setBounds(270, 0, 66, 60);
 
@@ -154,7 +169,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
-        jButton7.setBounds(10, 260, 111, 29);
+        jButton7.setBounds(0, 320, 86, 28);
 
         jButton6.setText("Add Channel");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -163,11 +178,20 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton6);
-        jButton6.setBounds(217, 270, 110, 29);
+        jButton6.setBounds(217, 270, 110, 28);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
         getContentPane().add(jLabel3);
         jLabel3.setBounds(30, 20, 320, 270);
+
+        jButton9.setText("Show Activity");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jButton9);
+        jButton9.setBounds(210, 320, 180, 28);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -308,6 +332,21 @@ public class WSpace extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+                stack.add(this);
+
+                fileframe f=new fileframe();
+                f.setTitle(CurrentWorkspace);
+                f.setLocation(400,150);
+                f.setSize(320,350);
+                f.setVisible(true);
+
+                this.setVisible(false);
+                this.dispose();
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         
@@ -387,6 +426,42 @@ public class WSpace extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        ArrayList<String> notif = new ArrayList();
+        try {
+            notif = wsp.getNotif();
+        } catch (SQLException ex) {
+            Logger.getLogger(WSpace.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int k = 0;
+        ArrayList<String> revNotif = new ArrayList();
+        for(int i=notif.size()-1;i>=0;i--){
+            revNotif.add(notif.get(i));
+        }
+        String b;
+        int s = revNotif.size();
+        JLabel[] a = new JLabel[s];
+        for(int i=0;i<s;i++){
+            a[i] = new JLabel();
+        }
+        int yPos = 50;
+        int y;
+        JFrame n = new JFrame();
+        n.setLayout(new GridLayout(5,1));
+        for(int i = 0;i<s;i++){
+            b = revNotif.get(i);
+            y = i + 1;
+            a[i].setText(y + ". " + b);
+            n.add(a[i]);
+            n.setLocation(10, yPos);
+            yPos += 20;
+            n.setLocation(400,200);
+            n.setSize(320,350);
+            n.setVisible(true);
+            System.out.println(b);
+        }
+    }//GEN-LAST:event_jButton9MouseClicked
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -397,6 +472,7 @@ public class WSpace extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;

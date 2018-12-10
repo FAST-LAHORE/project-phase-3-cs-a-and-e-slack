@@ -5,6 +5,7 @@
  */
 package slack;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import static slack.Login.user;
 import static slack.Slack.stack;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -34,12 +36,16 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public static String CurrentWorkspace=null;
     public static Workspace wsp=null;
-    
+    public static String color = "";
     private Slack obj;
     public MainMenu(Slack a) {
         obj=a;
         initComponents();
-        
+        red.setVisible(false);
+        blue.setVisible(false);
+        yellow.setVisible(false);
+        orange.setVisible(false);
+        green.setVisible(false);
     }
 
     /**
@@ -51,6 +57,9 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -60,6 +69,13 @@ public class MainMenu extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        orange = new javax.swing.JButton();
+        red = new javax.swing.JButton();
+        yellow = new javax.swing.JButton();
+        blue = new javax.swing.JButton();
+        green = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -95,7 +111,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(60, 90, 190, 29);
+        jComboBox1.setBounds(60, 90, 190, 28);
 
         jLabel3.setText("Select a Workspace");
         getContentPane().add(jLabel3);
@@ -132,6 +148,11 @@ public class MainMenu extends javax.swing.JFrame {
         jButton4.setBounds(-20, 0, 90, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slack/Slack_Icon.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         getContentPane().add(jLabel2);
         jLabel2.setBounds(30, 10, 250, 284);
 
@@ -144,6 +165,69 @@ public class MainMenu extends javax.swing.JFrame {
         });
         getContentPane().add(jButton5);
         jButton5.setBounds(250, 0, 97, 60);
+
+        update.setText("Update Profile");
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateMouseClicked(evt);
+            }
+        });
+        getContentPane().add(update);
+        update.setBounds(190, 250, 130, 28);
+
+        jButton6.setText("Settings");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jButton6);
+        jButton6.setBounds(10, 310, 140, 28);
+
+        orange.setBackground(new java.awt.Color(255, 102, 0));
+        orange.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orangeMouseClicked(evt);
+            }
+        });
+        getContentPane().add(orange);
+        orange.setBounds(310, 320, 30, 25);
+
+        red.setBackground(new java.awt.Color(255, 0, 0));
+        red.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                redMouseClicked(evt);
+            }
+        });
+        getContentPane().add(red);
+        red.setBounds(190, 320, 30, 25);
+
+        yellow.setBackground(new java.awt.Color(255, 255, 0));
+        yellow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                yellowMouseClicked(evt);
+            }
+        });
+        getContentPane().add(yellow);
+        yellow.setBounds(220, 320, 30, 25);
+
+        blue.setBackground(new java.awt.Color(102, 102, 255));
+        blue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                blueMouseClicked(evt);
+            }
+        });
+        getContentPane().add(blue);
+        blue.setBounds(250, 320, 30, 25);
+
+        green.setBackground(new java.awt.Color(0, 204, 51));
+        green.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                greenMouseClicked(evt);
+            }
+        });
+        getContentPane().add(green);
+        green.setBounds(280, 320, 30, 25);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -380,17 +464,87 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
+        UpdateProfile p = new UpdateProfile(user);
+        p.setSize(600, 500);
+        p.setTitle("Update Profile");
+        this.setVisible(false);
+        p.setVisible(true);
+    }//GEN-LAST:event_updateMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        //this.getContentPane().setBackground(Color.yellow);
+        red.setVisible(true);
+        blue.setVisible(true);
+        yellow.setVisible(true);
+        orange.setVisible(true);
+        green.setVisible(true);
+        
+    }//GEN-LAST:event_jButton6MouseClicked
+    public void changeBackground(Color r){
+//        JOptionPane.showMessageDialog(null,stack.size());
+//        JFrame[] f = new JFrame[stack.size()];
+//        int i = 0;
+//        for(i = 0;i<stack.size();i++){
+//            f[i] = new JFrame();
+//        }
+//        i = 0;
+//        while(!stack.isEmpty()){
+//            f[i] = stack.pop();
+//            
+//            i += 1;
+//        }
+//        for(i = stack.size() - 1;i>=0;i++){
+//            stack.push(f[i]);
+//        }
+    }
+    private void redMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redMouseClicked
+        Color r = Color.red;
+        this.getContentPane().setBackground(r);
+        //changeBackground(r);
+    }//GEN-LAST:event_redMouseClicked
+
+    private void yellowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yellowMouseClicked
+        this.getContentPane().setBackground(Color.YELLOW);
+    }//GEN-LAST:event_yellowMouseClicked
+
+    private void blueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_blueMouseClicked
+        this.getContentPane().setBackground(Color.BLUE);
+    }//GEN-LAST:event_blueMouseClicked
+
+    private void greenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_greenMouseClicked
+        this.getContentPane().setBackground(Color.GREEN);
+    }//GEN-LAST:event_greenMouseClicked
+
+    private void orangeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orangeMouseClicked
+        this.getContentPane().setBackground(Color.ORANGE);
+    }//GEN-LAST:event_orangeMouseClicked
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton blue;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton green;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton orange;
+    private javax.swing.JButton red;
+    private javax.swing.JButton update;
+    private javax.swing.JButton yellow;
     // End of variables declaration//GEN-END:variables
 }
