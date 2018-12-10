@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import static slack.Login.user;
 import static slack.Slack.stack;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -39,7 +40,6 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu(Slack a) {
         obj=a;
         initComponents();
-        
     }
 
     /**
@@ -60,6 +60,7 @@ public class MainMenu extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        update = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -95,7 +96,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(60, 90, 190, 29);
+        jComboBox1.setBounds(60, 90, 190, 28);
 
         jLabel3.setText("Select a Workspace");
         getContentPane().add(jLabel3);
@@ -144,6 +145,15 @@ public class MainMenu extends javax.swing.JFrame {
         });
         getContentPane().add(jButton5);
         jButton5.setBounds(250, 0, 97, 60);
+
+        update.setText("Update Profile");
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateMouseClicked(evt);
+            }
+        });
+        getContentPane().add(update);
+        update.setBounds(190, 250, 130, 28);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -380,6 +390,14 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
+        UpdateProfile p = new UpdateProfile(user);
+        p.setSize(600, 500);
+        p.setTitle("Update Profile");
+        this.setVisible(false);
+        p.setVisible(true);
+    }//GEN-LAST:event_updateMouseClicked
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -392,5 +410,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }
