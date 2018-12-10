@@ -157,7 +157,18 @@ public class Workspace
         
         return this.Filepaths;
     }
-
+    
+    public boolean addprivatechannel(String pubc,String e,String w) throws SQLException
+    {
+        Privatechannels.add(pubc);
+        return obj.addtomychannels(pubc, w, e, 0);
+    }
+    
+    public boolean addpublicchannel(String privc,String e,String w) throws SQLException
+    {
+        Publicchannels.add(privc);
+        return obj.addtomychannels(privc, w, e, 1);
+    }
             
     String getCreator()
     {
@@ -168,6 +179,7 @@ public class Workspace
     {
      return name;   
     }
+    
     
     
 }

@@ -20,6 +20,7 @@ public class Channel extends Chats
     private String type;
     private String user;
     private ArrayList<String> Chat = new ArrayList<>();
+    
     Channel(String u, String n)
     {
         user = u;
@@ -45,8 +46,4 @@ public class Channel extends Chats
         obj.AddChannelMessage(message ,user, name, CurrentWorkspace );
     }
     
-    public void Addfile() throws SQLException
-    {
-        
-    }
 }

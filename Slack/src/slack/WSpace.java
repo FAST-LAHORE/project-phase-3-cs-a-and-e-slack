@@ -114,6 +114,11 @@ public class WSpace extends javax.swing.JFrame {
         jLabel4.setBounds(0, 180, 80, 14);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Private" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox2);
         jComboBox2.setBounds(0, 200, 80, 80);
 
@@ -156,7 +161,7 @@ public class WSpace extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
-        jButton5.setBounds(210, 190, 110, 40);
+        jButton5.setBounds(220, 190, 100, 40);
 
         jButton7.setText("Invite User");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -192,10 +197,7 @@ public class WSpace extends javax.swing.JFrame {
         try {
             ArrayList<String> arr =null;
             Workspace ws=null;
-            String current = CurrentWorkspace;
-            
-            ws = new Workspace(current);
-            arr = ws.getUsers();
+            arr = wsp.getUsers();
              
             for (int i = 0; i < arr.size(); i++)
             {
@@ -285,13 +287,13 @@ public class WSpace extends javax.swing.JFrame {
              if(CurrentChannel.equals(" "))
              {
                   ArrayList<String> arr =null;
-                   Workspace ws = new Workspace(CurrentWorkspace);
+                 
                  jComboBox2.removeAllItems();
                  if(option.equals("public"))
-                    arr = ws.getPublicChannels();
+                    arr = wsp.getPublicChannels();
                    
                  else if(option.equals("private"))
-                    arr = ws.getPrivateChannels();
+                    arr = wsp.getPrivateChannels();
                  
                  for (int i = 0; i < arr.size(); i++) 
                         jComboBox2.addItem(arr.get(i));     
@@ -412,6 +414,10 @@ public class WSpace extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     
 

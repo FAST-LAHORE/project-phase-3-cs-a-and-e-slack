@@ -366,6 +366,24 @@ public class Slack {
        return false;
     }
     
+    public boolean addtomychannels(String c,String w,String e, int t) throws SQLException
+    {
+        String query="INSERT INTO HARIS.MYCHANNELS (CHANNEL, WORKSPACE,USERNAME,TYPE)" +"VALUES (?, ?, ?,?)";
+        PreparedStatement ps=conn.prepareStatement(query);
+        
+        ps.setString(1, c);
+        ps.setString(2, w);
+        ps.setString(3, e);
+        ps.setInt(4,t);
+        
+        int tr= ps.executeUpdate();
+        
+       if(tr>0)
+           return true;
+       return false;
+          
+    }
+    
     
     
     public static  Slack obj;
