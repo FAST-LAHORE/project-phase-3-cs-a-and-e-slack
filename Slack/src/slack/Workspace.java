@@ -133,11 +133,7 @@ public class Workspace
     {
         return obj.addfile(e, p, w);
     }
-    public ArrayList getNotif() throws SQLException{
-        
-        ArrayList<String> a = obj.getNotif(name);
-        return a;
-    }
+
             
     
     String getCreator()
