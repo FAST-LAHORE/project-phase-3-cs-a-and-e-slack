@@ -165,8 +165,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(rootPane, "Cannot Add Workspace");
 
         }
-        
-        
+           
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

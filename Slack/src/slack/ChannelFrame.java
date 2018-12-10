@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import static slack.MainMenu.CurrentWorkspace;
-import static slack.Login.user;
-import static slack.MainMenu.wsp;
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,13 +23,14 @@ public class ChannelFrame extends javax.swing.JFrame {
     private String selected;
     private Slack obj;
     private Channel CC;
-    public static int x=0;
-    public ChannelFrame(String p1, String p2) {
+    private DefaultTableModel model;
+     private boolean typed = false;
+    public ChannelFrame(String p1, String p2, int wId) throws SQLException {
          user = p1;
         selected = p2;
-       CC = new Channel(p1, p2);
+       CC = new Channel(p1, p2, wId);
         initComponents();
-         jTextArea1.setEditable(false);
+        // jTextArea1.setEditable(false);
     }
 
     /**
@@ -45,12 +43,12 @@ public class ChannelFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -62,14 +60,7 @@ public class ChannelFrame extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(115, 14, 117, 14);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(91, 48, 191, 179);
+        jLabel1.setBounds(115, 14, 117, 15);
 
         jTextField1.setText("Type Message");
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -81,7 +72,7 @@ public class ChannelFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(104, 245, 163, 20);
+        jTextField1.setBounds(104, 245, 163, 19);
 
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -90,7 +81,7 @@ public class ChannelFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(293, 242, 57, 23);
+        jButton1.setBounds(293, 242, 59, 25);
 
         jButton2.setText("add file");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -99,9 +90,8 @@ public class ChannelFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(290, 270, 67, 23);
+        jButton2.setBounds(290, 270, 69, 25);
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("jTextField2");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,13 +99,42 @@ public class ChannelFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField2);
-        jTextField2.setBounds(290, 300, 70, 20);
+        jTextField2.setBounds(290, 310, 55, 19);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(90, 50, 190, 180);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String message = jTextField1.getText();
+        if(typed && !message.equals(""))
+      {
+        typed = false;
         jTextField1.setText("Type Message");
         try {
             CC.AddMessage(message);
@@ -123,17 +142,25 @@ public class ChannelFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+      }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void LoadMessages() throws SQLException
     {
-        jTextArea1.setText(" ");
-        ArrayList<String> Chat=CC.GetChat();
-        String a;
-        while(!Chat.isEmpty())
+         jTable1.setModel(new DefaultTableModel(null, new Object[]{""}));
+         
+        ArrayList<Message> Chat=CC.GetChat();
+//        for(int i=0; i<Chat.size(); i++)
+//            System.out.println(Chat.get(i).getMessage());
+        Message a;
+        
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+         for(int i=0; i<Chat.size(); i++)
         {
-            a = Chat.remove(0);
-            jTextArea1.append(a + "\n");
+            a = Chat.get(i);
+            model1.insertRow(model1.getRowCount(),new Object[]{a.getSender()} );
+                model1.insertRow(model1.getRowCount(),new Object[]{a.getMessage()} );
+           // jTextArea1.append(a + "\n");
         }
     }
     private void jTextField1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MousePressed
@@ -141,14 +168,15 @@ public class ChannelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1MousePressed
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
-        jTextField1.setText(" ");
+        jTextField1.setText("");
+        typed = true;
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jLabel1.setText(selected);
         
        
-        jTextArea1.setEditable(false);
+      //  jTextArea1.setEditable(false);
         try {
             LoadMessages();
         } catch (SQLException ex) {
@@ -164,70 +192,88 @@ public class ChannelFrame extends javax.swing.JFrame {
         JFileChooser chooser= new JFileChooser();
         chooser.showOpenDialog(null);
         File f=chooser.getSelectedFile();
+        
         filename= f.getAbsolutePath();
-      
-            try
-            {
-              wsp.addfile(slack.Login.user.getName(),filename, CurrentWorkspace);
-            } catch (SQLException ex)
-            {
-               Logger.getLogger(ChannelFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
-        
-        jTextField2.setText("File sent");
+        jTextField2.setText(filename);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-        
-        
-        
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+         int selectedrow = jTable1.getSelectedRow();
+        String selectedS = (String)jTable1.getValueAt(selectedrow, 0);  //the message
+        if(selectedrow%2==0)
+        {
+            //show profile
+        }
+         else
+        {    
+            ArrayList<Message> Chat = new ArrayList<>();
+            
+            try {
+              Chat  =CC.GetChat();
+            } catch (SQLException ex) {
+                Logger.getLogger(PmFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Message a;
+            int index = (selectedrow-1)/2;
+            a = Chat.get(index);
+            
+            Thread t = new Thread(a, "Channel");
+          threadFrame mainFrame=new threadFrame(t);
+          mainFrame.setTitle("Channel");
+          mainFrame.setLocation(400,150);
+          mainFrame.setSize(320,350);
+          mainFrame.setVisible(true);
+            
+          this.setVisible(false);
+          this.dispose();
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-               // new ChannelFrame().setVisible(true);
-            }
-        });
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ChannelFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//               // new ChannelFrame().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables

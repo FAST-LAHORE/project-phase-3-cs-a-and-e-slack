@@ -24,7 +24,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             
@@ -91,7 +91,7 @@ public class Slack {
     boolean createWorkspace(String wname,String creator,String pass,String acode) throws SQLException
     {
        
-        String query="INSERT INTO HARIS.WORKSPACES (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
+        String query="INSERT INTO HARIS.WORKSPACE (\"NAME\", CREATOR,PASSWORD,ACCESCODE)"+"VALUES ( ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         ps.setString(1, wname);
         ps.setString(2, creator);
@@ -102,7 +102,7 @@ public class Slack {
         int tr= ps.executeUpdate();
          if(tr>0) 
          {
-        String q="Select ID FROM HARIS.WORKSPACES WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
+        String q="Select ID FROM HARIS.WORKSPACE WHERE \"NAME\"=? AND CREATOR=? AND PASSWORD=?";
         PreparedStatement pss=conn.prepareStatement(q);
         pss.setString(1, wname);
         pss.setString(2, creator);
@@ -114,16 +114,19 @@ public class Slack {
             id=x.getInt("ID");
         }
         
-        String abc="INSERT INTO HARIS.MYWORKSAPCES (USERNAME, \"TYPE\", ID)" +"VALUES (?, 1, ?)";
+        String abc="INSERT INTO HARIS.MYWORKSAPCES (USERNAME, \"TYPE\", PASSWORD, WORKSPACEID)" +"VALUES (?, 1,?,?)";
         PreparedStatement in=conn.prepareStatement(abc);
         in.setString(1, creator);
-        in.setInt(2, id);
+       // 
+        in.setString(2, pass);
+         in.setInt(3, id);
         in.executeUpdate();
-        
+       
              return true;
          }
        return false;
     }
+
     ResultSet getinvites(String e) throws SQLException
     {
         String q="Select WSNAME FROM HARIS.INVITES WHERE EMAIL=?";
@@ -132,10 +135,11 @@ public class Slack {
         ResultSet x=pss.executeQuery();
         return x;
     }
+
     ArrayList<String> myWorkspace(String name) throws SQLException
     {
         ArrayList<String> arr=new ArrayList<>();
-        String q="Select ID FROM HARIS.MYWORKSAPCES WHERE USERNAME=?";
+        String q="Select WORKSPACEID FROM HARIS.MYWORKSAPCES WHERE USERNAME=?";
         PreparedStatement pss=conn.prepareStatement(q);
         pss.setString(1, name);
         ResultSet x=pss.executeQuery();
@@ -143,7 +147,7 @@ public class Slack {
         
         while(x.next())
         {
-            String q2="Select NAME FROM HARIS.WORKSPACES WHERE ID=? ";
+            String q2="Select NAME FROM HARIS.WORKSPACE WHERE ID=? ";
             PreparedStatement ps2=conn.prepareStatement(q2);
             ps2.setInt(1, x.getInt(1));
             
@@ -153,8 +157,7 @@ public class Slack {
              wname=rs.getString(1);
            
            arr.add(wname);
-           
-           
+          
         }
         
         
@@ -164,38 +167,56 @@ public class Slack {
     
     ResultSet GetWorkspaceDetails(String n) throws SQLException
     {
-        String q="SELECT CREATOR, PASSWORD FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        String q="SELECT CREATOR, PASSWORD, ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();
         return rs;
     }
     
-    ResultSet GetWorkspaceMembers(String n) throws SQLException
+    ResultSet GetWorkspaceMembers(int n) throws SQLException
     {
-        int id=IDbyName(n);
-        String q="SELECT USERNAME FROM HARIS.MYWORKSAPCES WHERE ID = ?";
+       // int id=IDbyName(n);
+        String q="SELECT USERNAME FROM HARIS.MYWORKSAPCES WHERE WORKSPACEID = ?";
         PreparedStatement ps=conn.prepareStatement(q);
-        ps.setInt(1,id);
+        ps.setInt(1,n);
         ResultSet rs=ps.executeQuery();
         return rs;
     }
     
-    ResultSet GetJoinedChannels(String n, String m, String p) throws SQLException
+    ResultSet GetJoinedChannels(int n, String m, String p) throws SQLException
     {
-        String q="SELECT CHANNEL, TYPE FROM HARIS.MYCHANNELS WHERE USERNAME =? AND WORKSPACE = ? AND TYPE=?";
+        String q="SELECT CHANNELNAME FROM HARIS.CHANNELS JOIN HARIS.MYCHANNELS ON CHANNELS.ID = MYCHANNELS.CHANNELID WHERE MYCHANNELS.USERNAME = ? AND CHANNELS.WORKSPACEID=? AND CHANNELS.CHANNELTYPE=?";
         PreparedStatement ps=conn.prepareStatement(q);
-        ps.setString(2,n);     
+        ps.setInt(2,n);     
         ps.setString(1,m);
         ps.setString(3,p);
         ResultSet rs=ps.executeQuery();
         return rs;
     }
     
-    //ResultSet GetChannelType()
+    ResultSet GetThread(Message m) throws SQLException
+    {
+         String q = "SELECT REPLY, SENDER FROM HARIS.THREAD WHERE MESSAGEID = ?";
+         PreparedStatement ps=conn.prepareStatement(q);
+         ps.setInt(1, m.getId());
+         ResultSet rs=ps.executeQuery();
+        return rs;
+    }
+    
+    public void AddReply(Message M, String u, String m) throws SQLException
+    {
+        String q = "INSERT INTO HARIS.THREAD (MESSAGEID, REPLY, SENDER)" + "VALUES(?,?,?)";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1, M.getId());
+        ps.setString(2, m);
+        ps.setString(3, u);
+        ps.executeUpdate();
+        
+    }
     ResultSet GetDirectMessages(String u, String p) throws SQLException
     {
-        String q = "SELECT MESSAGES, SENDER FROM HARIS.DIRECTMESSAGES WHERE SENDER =? AND RECEIVER =? OR SENDER=? AND RECEIVER=?";
+        String q = "SELECT ID, MESSAGES, SENDER FROM HARIS.DIRECTMESSAGES WHERE SENDER =? AND RECEIVER =? OR SENDER=? AND RECEIVER=?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1, u);
         ps.setString(2, p);
@@ -205,7 +226,26 @@ public class Slack {
         return rs;
     }
 
+    ResultSet GetSender(int u) throws SQLException
+    {
+        String q = "SELECT FROM HARIS.DIRECTMESSAGES WHERE MESSAGEID =?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1, u);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+    }
     
+    ResultSet GetMessageId(String user,  String person, String message) throws SQLException
+    {
+        String q = "SELECT MESSAGES, SENDER FROM HARIS.DIRECTMESSAGES WHERE SENDER =? AND RECEIVER =? AND MESSAGE = ?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1, user);
+        ps.setString(2, person);
+        ps.setString(3, message);
+        ResultSet rs=ps.executeQuery();
+        return rs;
+         
+    }
     public void AddDirectMessage(String u, String p, String m) throws SQLException
     {
         String q = "INSERT INTO HARIS.DIRECTMESSAGES (MESSAGES, SENDER,RECEIVER )" + "VALUES(?,?,?)";
@@ -216,35 +256,72 @@ public class Slack {
         ps.executeUpdate();
     }
 
-    public void AddChannelMessage(String m, String u, String c,  String w) throws SQLException
+    public void AddChannelMessage(String m, String u, int c) throws SQLException
     {
-        String q = "INSERT INTO HARIS.CHANNELMESSAGES (MESSAGE, SENDER,CHANNEL,WORKSPACE )" + "VALUES(?,?,?,?)";
+        String q = "INSERT INTO HARIS.CHANNELMESSAGES (MESSAGES, SENDER,CHANNELID )" + "VALUES(?,?,?)";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,m);
         ps.setString(2,u);
-        ps.setString(3,c);
-        ps.setString(4,w);
+        ps.setInt(3,c);
         ps.executeUpdate();
     }
     
-    ResultSet GetAllPublicChannels(String w) throws SQLException
+    public int GetWorkspaceId(String name) throws SQLException
     {
-        String q="SELECT NAME FROM HARIS.CHANNEL WHERE WORKSPACE = ? AND TYPE=?";
+        String q = "Select ID FROM WORKSPACE WHERE NAME =?";
         PreparedStatement ps=conn.prepareStatement(q);
-        ps.setString(1,w);   
+       // ps.setInt(1,nam);
+        ps.setString(1,name);
+        ResultSet rs=ps.executeQuery();
+        int id =0;
+        while(rs.next())
+        {
+            id = rs.getInt("ID");
+        }
+        return id;
+    }
+    public int GetChannelId(String name, int w) throws SQLException
+    {
+        String q="SELECT ID FROM HARIS.CHANNELS WHERE WORKSPACEID = ? AND CHANNELNAME=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1,w);
+        ps.setString(2,name);
+        ResultSet rs=ps.executeQuery();
+        int id =0;
+        while(rs.next())
+        {
+            id = rs.getInt("ID");
+        }
+        return id;
+    }
+    ResultSet GetAllPublicChannels(int w) throws SQLException
+    {
+        String q="SELECT CHANNELNAME FROM HARIS.CHANNELS WHERE WORKSPACEID = ? AND CHANNELTYPE=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1,w);   
         ps.setString(2,"public");
         ResultSet rs=ps.executeQuery();
         return rs;
     }
-    ResultSet GetChannelMessages(String c, String w) throws SQLException
+    ResultSet GetChannelMessages(String c, int w) throws SQLException
     {
-        String q = "SELECT MESSAGE, SENDER FROM HARIS.CHANNELMESSAGES WHERE CHANNEL =? AND WORKSPACE=?";
-        PreparedStatement ps=conn.prepareStatement(q);
-        ps.setString(1, c);
-        ps.setString(2, w);
+        String r = "SELECT ID FROM HARIS.CHANNELS WHERE CHANNELNAME =? AND WORKSPACEID=?";
        
-        ResultSet rs=ps.executeQuery();
-        return rs;
+        PreparedStatement ps=conn.prepareStatement(r);
+        ps.setString(1, c);
+        ps.setInt(2, w);
+       ResultSet rs=ps.executeQuery();
+       int id = 0;
+       while(rs.next())
+        {
+            id = rs.getInt("ID");
+        }
+        String q = "SELECT ID, MESSAGES, SENDER FROM HARIS.CHANNELMESSAGES WHERE CHANNELID =?";
+        PreparedStatement ps1=conn.prepareStatement(q);
+        ps1.setInt(1, id);
+       ResultSet rs1=ps1.executeQuery();
+        
+        return rs1;
     }
     
     ResultSet getuserfiles(String e, String w) throws SQLException
@@ -273,7 +350,7 @@ public class Slack {
     
     int IDbyName(String n) throws SQLException
     {
-        String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,n);
         ResultSet rs=ps.executeQuery();
@@ -286,7 +363,7 @@ public class Slack {
         return id;
         
     }
-    
+
     boolean addusertoworkspace(String e, String w,String p) throws SQLException
     {
         String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
@@ -311,6 +388,21 @@ public class Slack {
     }
     
     
+    public ArrayList getNotif(String name) throws SQLException{
+        String q = "SELECT DESCRIPTION FROM NOTIFICATIONS WHERE WORKSPACE ='" + name+"'";
+        PreparedStatement ps = conn.prepareStatement(q);
+        //ps.setString(1, name);
+        System.out.println(q);
+        ArrayList a = new ArrayList();
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            a.add(rs.getString("DESCRIPTION"));
+        }
+        for(int i = 0;i<a.size();i++){
+            System.out.println(a.get(i));
+        }
+        return a;
+    }
     
     /*NamebyID(String n) throws SQLException
     {
@@ -336,7 +428,7 @@ public class Slack {
         
         int id=IDbyName(n);
         
-        String query="SELECT * FROM HARIS.MYWORKSAPCES WHERE USERNAME=? AND PASSWORD=? AND ID=?";
+        String query="SELECT * FROM HARIS.MYWORKSAPCES WHERE USERNAME=? AND PASSWORD=? AND WORKSPACEID=?";
         PreparedStatement ps=conn.prepareStatement(query);
         
         ps.setString(1, e);
