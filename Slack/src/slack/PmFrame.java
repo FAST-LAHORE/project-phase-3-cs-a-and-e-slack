@@ -23,7 +23,7 @@ import static slack.MainMenu.CurrentWorkspace;
 import static slack.MainMenu.wsp;
 import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
-
+import static slack.MainMenu.color;
 /**
  *
  * @author saira
@@ -42,6 +42,9 @@ public class PmFrame extends javax.swing.JFrame {
        DC = new DirectMessage(user, selected);
 //       
         initComponents();
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
               // jTextArea1.setEditable(false);
                model = (DefaultTableModel) jTable1.getModel();
     ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);

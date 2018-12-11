@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
-
+import static slack.MainMenu.color;
 import static slack.Slack.obj;
 
 import static slack.MainMenu.wsp;
@@ -48,6 +48,9 @@ public class WSpace extends javax.swing.JFrame {
     {
         CurrentChannel = " ";
         initComponents();
+        if(color != null){
+            this.getContentPane().setBackground(color);
+        }
     }
 
     /**
