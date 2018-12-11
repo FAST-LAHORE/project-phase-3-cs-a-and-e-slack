@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package slack;
-
+import java.sql.SQLException;
+import static slack.Slack.conn;
+import static slack.Slack.obj;
 
 public class Message {
     
@@ -31,5 +33,8 @@ public class Message {
     public String getSender()
     {
         return sender;
+    }
+    public int deleteMessage() throws SQLException{
+        return obj.delMessage(id);
     }
 }

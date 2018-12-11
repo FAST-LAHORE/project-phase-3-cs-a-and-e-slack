@@ -295,6 +295,22 @@ public class Slack {
         }
         return id;
     }
+    
+    
+    public String getchanneltype(String name,int w) throws SQLException
+    {
+        String q="SELECT CHANNELTYPE FROM HARIS.CHANNELS WHERE WORKSPACEID = ? AND CHANNELNAME=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setInt(1,w);
+        ps.setString(2,name);
+        ResultSet rs=ps.executeQuery();
+        String s=null;
+        while(rs.next())
+        {
+            s=rs.getString("CHANNELTYPE");
+        }
+        return s;
+    }
     ResultSet GetAllPublicChannels(int w) throws SQLException
     {
         String q="SELECT CHANNELNAME FROM HARIS.CHANNELS WHERE WORKSPACEID = ? AND CHANNELTYPE=?";
@@ -501,6 +517,32 @@ public class Slack {
           
     }
     
+    public boolean setchanneldetails(int id,String c, String a,String b) throws SQLException
+    {
+        String q="UPDATE CHANNELS SET CHANNELNAME=? AND DESCRIPTION=? WHERE ID=?";
+        PreparedStatement ps=conn.prepareStatement(q);
+        ps.setString(1, a);
+        ps.setString(2, b);
+        ps.setInt(3, id);
+        
+        int temp=ps.executeUpdate();
+        
+        if(temp>0)
+           return true;
+       return false;
+
+    }
+    public int delMessage(int id) throws SQLException{
+        String q = "DELETE FROM DIRECTMESSAGES WHERE ID = ?";
+        PreparedStatement ps = conn.prepareStatement(q);
+        ps.setInt(1, id);
+        int r = ps.executeUpdate();
+        if(r > 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
     
     
     public static  Slack obj;

@@ -52,14 +52,35 @@ public class Channel extends Chats
         
     }
      
-     public int getid()
+     public String gettype() throws SQLException
      {
-         return id;
+        Workspace ws = new Workspace(CurrentWorkspace);
+        type = obj.getchanneltype(name, ws.getId());
+        return type;
+     }
+     
+     public String getname()
+     {
+         return name;
      }
      
     public void AddMessage(String message) throws SQLException
     {
         obj.AddChannelMessage(message ,user, id);
     }
+    
+    public String getcreator()
+    {
+        return user;
+    }
+    
+    public boolean setdetails(String a, String b) throws SQLException
+    {
+        
+        return obj.setchanneldetails(id,name,a,b);
+    }
+    
+    
+    
     
 }

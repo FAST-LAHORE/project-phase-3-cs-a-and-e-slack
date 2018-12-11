@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static slack.Slack.obj;
 import static slack.Login.user;
 import static slack.MainMenu.CurrentWorkspace;
+import static slack.Slack.stack;
 import static slack.WSpace.CurrentChannel;
 /**
  *
@@ -30,6 +33,7 @@ public class threadFrame extends javax.swing.JFrame {
         thread = t;
         initComponents();
         model = (DefaultTableModel) jTable1.getModel();
+        //JOptionPane.showMessageDialog(null,thread.message.getMessage() + thread.message.getId());
     }
 
     /**
@@ -47,6 +51,7 @@ public class threadFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -110,6 +115,13 @@ public class threadFrame extends javax.swing.JFrame {
             }
         });
 
+        delete.setText("Delete");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,20 +141,23 @@ public class threadFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(jButton1)))))
-                .addContainerGap(103, Short.MAX_VALUE))
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(delete)))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(delete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1))
         );
@@ -228,6 +243,26 @@ public class threadFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        int p = 0;
+        if(user.getName().equals(thread.message.getSender())){
+        try {
+            // TODO add your handling code here:
+             p = thread.message.deleteMessage();
+        } catch (SQLException ex) {
+            Logger.getLogger(threadFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(p == 1){
+            JOptionPane.showMessageDialog(null, "deleted message");
+            this.dispose();
+            JFrame f = stack.pop();
+            f.setVisible(true);
+        }
+      }else{
+            JOptionPane.showMessageDialog(null, "you cannot delete the message","error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_deleteMouseClicked
+
     public void LoadThread()
     {
         jTable1.setModel(new DefaultTableModel(null, new Object[]{""}));
@@ -283,6 +318,7 @@ public class threadFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton delete;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
