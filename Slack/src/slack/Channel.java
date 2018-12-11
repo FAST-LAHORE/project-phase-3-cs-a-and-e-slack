@@ -52,6 +52,11 @@ public class Channel extends Chats
         
     }
      
+     public int getid()
+     {
+         return id;
+     }
+     
     public void AddMessage(String message) throws SQLException
     {
         obj.AddChannelMessage(message ,user, id);

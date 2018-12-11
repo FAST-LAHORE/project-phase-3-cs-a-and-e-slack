@@ -5,6 +5,7 @@
  */
 package slack;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static slack.Login.user;
 import static slack.MainMenu.wsp;
+import static slack.Slack.obj;
 import static slack.Slack.stack;
 
 /**
@@ -141,7 +143,14 @@ public class JoinWorkspace extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         boolean check=false;
+        
         String workspacename=(String)jComboBox1.getSelectedItem();
+        Workspace w=null;
+        try {
+            w = new Workspace(workspacename);
+        } catch (SQLException ex) {
+            Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String pass=null;
         while(pass==null)
          {
@@ -151,7 +160,7 @@ public class JoinWorkspace extends javax.swing.JFrame {
          }
         
         try {
-                 check=wsp.addUser(user.getName(),workspacename,pass);
+                 check=w.addUser(user.getName(),workspacename,pass);
         } catch (SQLException ex) {
             Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,16 +186,25 @@ public class JoinWorkspace extends javax.swing.JFrame {
         
         
         ArrayList<String> arr =new ArrayList<> ();
-        
+        ResultSet rs=null;
         try {
-            arr=wsp.getinvites(user.getName());
+            rs=obj.getinvites(user.getEmail());
         } catch (SQLException ex) {
             Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (int i = 0; i < arr.size(); i++) 
+        try {
+            while(rs.next())
             {
-            jComboBox1.addItem(arr.get(i));
+                try {
+                    jComboBox1.addItem(rs.getString("WSNAME"));
+                } catch (SQLException ex) {
+                    Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
+        } catch (SQLException ex) {           
+            Logger.getLogger(JoinWorkspace.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**

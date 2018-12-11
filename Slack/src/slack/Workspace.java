@@ -72,7 +72,7 @@ public class Workspace
     
     void GetPrivateChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "private");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "Private");
         while(rs.next())
         {
             Privatechannels.add(rs.getString("CHANNELNAME"));
@@ -83,7 +83,7 @@ public class Workspace
     
      void GetPublicChannels() throws SQLException
     {
-        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "public");
+        ResultSet rs = obj.GetJoinedChannels(id, user.getName(), "Public");
         while(rs.next())
         {
             Publicchannels.add(rs.getString("CHANNELNAME"));
@@ -95,16 +95,17 @@ public class Workspace
     {
         return obj.createWorkspace(name, creator, password,accesscode);
     }
-    ArrayList<String> getinvites(String e) throws SQLException
+    
+    /*ArrayList<String> getinvites(String e) throws SQLException
     {
-        ArrayList<String> i=new ArrayList<>();
-        ResultSet rs=obj.getinvites(e);
-        while(rs.next())
-        {
-            i.add(rs.getString("WSNAME"));
-        }
-        return i;
+    ArrayList<String> i=new ArrayList<>();
+    ResultSet rs=obj.getinvites(e);
+    while(rs.next())
+    {
+    i.add(rs.getString("WSNAME"));
     }
+    return i;
+    }*/
     boolean addUser(String e,String w,String p) throws SQLException
     {
         users.add(e);

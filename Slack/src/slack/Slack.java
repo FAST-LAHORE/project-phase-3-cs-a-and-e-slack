@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import static slack.MainMenu.wsp;
 
 /**
  *
@@ -24,7 +25,7 @@ public class Slack {
         try {
             // TODO code application logic here
 
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "haris","haris");
+            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/SlackDB", "Haris","12345");
         } catch (SQLException ex) {
             System.out.println("DB Connection Error");
             
@@ -299,7 +300,7 @@ public class Slack {
         String q="SELECT CHANNELNAME FROM HARIS.CHANNELS WHERE WORKSPACEID = ? AND CHANNELTYPE=?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setInt(1,w);   
-        ps.setString(2,"public");
+        ps.setString(2,"Public");
         ResultSet rs=ps.executeQuery();
         return rs;
     }
@@ -326,10 +327,10 @@ public class Slack {
     
     ResultSet getuserfiles(String e, String w) throws SQLException
     {
-        String q = "SELECT FILEPATH FROM HARIS.USERFILES WHERE EMAIL =? AND WORKSPACENAME=?";
+        String q = "SELECT FILEPATH FROM HARIS.USERFILES WHERE WORKSPACENAME=?";
         PreparedStatement ps=conn.prepareStatement(q);
-        ps.setString(1, e);
-        ps.setString(2, w);
+       
+        ps.setString(1, w);
        
         ResultSet rs=ps.executeQuery();
         return rs;
@@ -366,7 +367,7 @@ public class Slack {
 
     boolean addusertoworkspace(String e, String w,String p) throws SQLException
     {
-        String q="SELECT ID FROM HARIS.WORKSPACES WHERE \"NAME\" = ?";
+        String q="SELECT ID FROM HARIS.WORKSPACE WHERE \"NAME\" = ?";
         PreparedStatement ps=conn.prepareStatement(q);
         ps.setString(1,w);
         ResultSet rs=ps.executeQuery();
@@ -377,7 +378,7 @@ public class Slack {
             id=rs.getInt("ID");
         }
         
-        String abc="INSERT INTO HARIS.MYWORKSAPCES (USERNAME, \"TYPE\", ID,PASSWORD)" +"VALUES (?, 0, ?,?)";
+        String abc="INSERT INTO HARIS.MYWORKSAPCES (USERNAME, \"TYPE\", WORKSPACEID,PASSWORD)" +"VALUES (?, 0, ?,?)";
         PreparedStatement in=conn.prepareStatement(abc);
         in.setString(1,e);
         in.setInt(2, id);
@@ -460,13 +461,37 @@ public class Slack {
     
     public boolean addtomychannels(String c,String w,String e, int t) throws SQLException
     {
-        String query="INSERT INTO HARIS.MYCHANNELS (CHANNEL, WORKSPACE,USERNAME,TYPE)" +"VALUES (?, ?, ?,?)";
+        String type="";
+        if(t==1)
+            type="Public";
+        if(t==0)
+            type="Private";
+        
+        String q1="INSERT INTO HARIS.CHANNELS (CHANNELNAME, CREATOR, CHANNELTYPE, WORKSPACEID)" +"VALUES (?,?, ?,?)";
+        PreparedStatement p1=conn.prepareStatement(q1);
+        p1.setString(1, c);
+        p1.setString(2, e);
+        p1.setString(3, type);
+        p1.setInt(4, wsp.getId());
+        p1.executeUpdate();
+        
+        
+        String getid="Select ID from Channels where channelname=?";
+        
+        PreparedStatement xx=conn.prepareStatement(getid);
+        xx.setString(1, c);
+        ResultSet x=xx.executeQuery();
+        if(x.next());
+        
+        
+        String query="INSERT INTO HARIS.MYCHANNELS (CHANNEL, WORKSPACE,USERNAME,TYPE,ChannelID)" +"VALUES (?, ?, ?,?,?)";
         PreparedStatement ps=conn.prepareStatement(query);
         
         ps.setString(1, c);
         ps.setString(2, w);
         ps.setString(3, e);
-        ps.setInt(4,t);
+        ps.setString(4,type);
+        ps.setInt(5, x.getInt("ID"));
         
         int tr= ps.executeUpdate();
         
